@@ -25,3 +25,7 @@ Expose the Ceph dashboard
 kubectl create -f dashboard-external.yaml
 ```
 
+Run Rook toolbox
+```
+kubectl create -f toolbox.yaml
+```
