@@ -1,4 +1,3 @@
-
 Install minikube & kubectl: https://kubernetes.io/docs/tasks/tools/install-minikube/
 
 ---
@@ -34,7 +33,4 @@ kubectl create -f dashboard-external.yaml
 
 ---
 
-(Not working) Run Rook toolbox
-```
-kubectl create -f toolbox.yaml
-```
+Rook toolbox and Object Store can't be implemented in minikube since the cluster runs in a single node. More nodes are necessary to further implement Rook in k8s.
