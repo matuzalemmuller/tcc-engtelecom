@@ -133,3 +133,15 @@ resource "google_compute_instance" "vm-2" {
 
   tags = ["k8s"]
 }
+
+output "external-ip-0" {
+  value = "${google_compute_instance.vm-0.network_interface.0.access_config.0.assigned_nat_ip}"
+}
+
+output "external-ip-1" {
+  value = "${google_compute_instance.vm-1.network_interface.0.access_config.0.assigned_nat_ip}"
+}
+
+output "external-ip-2" {
+  value = "${google_compute_instance.vm-2.network_interface.0.access_config.0.assigned_nat_ip}"
+}
