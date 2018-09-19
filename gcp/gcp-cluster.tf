@@ -1,17 +1,17 @@
 // Variables
 variable "gce_ssh_user" {
-  default = "boidacarapreta"
+  default = "matuzalemmuller"
 }
 
 variable "gce_ssh_pub_key_file" {
-  default = "id_rsa.pub"
+  default = "keys/id_rsa.pub"
 }
 
 // Provider
 provider "google" {
   // https://console.cloud.google.com/apis/credentials/serviceaccountkey
-  credentials = "${file("gcp.json")}"
-  project     = "development-215518"
+  credentials = "${file("keys/gcp.json")}"
+  project     = "k8s-test-cluster-215603"
   region      = "southamerica-east1"
 }
 
