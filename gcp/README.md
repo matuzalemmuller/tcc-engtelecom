@@ -46,14 +46,14 @@ gcloud init
 ```
 
 ---
-### Modify gcp-cluster.tf file to include correct account information and credentials
+### Modify terramaster-cluster.tf file to include correct account information and credentials
 
 Generate local SSH keys, which will be used to connect to the remote VMs. Save both keys with the default name (id_rsa) and blace both keys inside the directory "keys":
 ```
 ssh-keygen -t rsa -b 4096 -C "email@domain.com"
 ```
 
-Modify the file `gcp-cluster` to include the user that will be created in the remote VMs and point to the project created in GCP (note that you should include the project ID):
+Modify the file `terramaster-cluster.tf` to include the user that will be created in the remote VMs and point to the project created in GCP (note that you should include the project ID):
 ```
 (line 3)  default = "user"
 ...
