@@ -5,16 +5,16 @@ This documentation presents step by step instructions on how to set up a kuberne
 Table of contents
 =================
 <!--ts-->
-  * [Create a project in GCP](###Create a project in GCP)
-  * [Setup Terraform in local device](###Setup Terraform in local device)
-  * [Download and install Google SDK](###Download and install Google SDK)
-  * [Modify terraform-cluster.tf file to include correct account information and credentials](###Modify terraform-cluster.tf file to include correct account information and credentials)
-  * [Run Terraform and create the GCP infrastructure](###Run Terraform and create the GCP infrastructure)
-  * [Install docker in all VMs created](###Install docker in all VMs created)
-  * [Install rke in local computer](###Install rke in local computer)
-  * [Deploy remote k8s cluster](###Deploy remote k8s cluster)
-  * [Move k8s local file created by rancher to k8s local configuration folder](###Move k8s local file created by rancher to k8s local configuration folder)
-  * [Install helm in remote k8s cluster](###Install helm in remote k8s cluster)
+  * [Create a project in GCP](#create-a-project-in-gcp)
+  * [Setup Terraform in local device](#setup-terraform-in-local-device)
+  * [Download and install Google SDK](#download-and-install-google-sdk)
+  * [Modify terraform-cluster.tf file to include correct account information and credentials](#modify-terraform-clustertf-file-to-include-correct-account-information-and-credentials)
+  * [Run Terraform and create the GCP infrastructure](#run-terraform-and-create-the-gcp-infrastructure)
+  * [Install docker in all VMs created](#install-docker-in-all-vms-created)
+  * [Install rke in local computer](#install-rke-in-local-computer)
+  * [Deploy remote k8s cluster](#deploy-remote-k8s-cluster)
+  * [Move k8s local file created by rancher to k8s local configuration folder](#deploy-remote-k8s-cluster)
+  * [Install helm in remote k8s cluster](#install-helm-in-remote-k8s-cluster)
 
 <!--te-->
 
