@@ -8,7 +8,7 @@ This documentation presents step by step instructions on how to set up a kuberne
 
 https://cloud.google.com/resource-manager/docs/creating-managing-projects
 
---- 
+---
 ### Setup Terraform in local device. These instructions are for OSX.
 
 Install Terraform in local device:
@@ -20,8 +20,8 @@ unzip terraform_0.10.8_darwin_amd64.zip -d /usr/local/terraform
 
 Set the PATH variable for Terraform:
 ```
-vim ~/.bash_profile 
-. . . 
+vim ~/.bash_profile
+. . .
 # Required by Terraform
 export PATH=$PATH:/usr/local/terraform
 . . .
@@ -69,10 +69,31 @@ https://console.cloud.google.com/apis/credentials/serviceaccountkey
 Run the following commands to see the changes that will be made by terraform, apply these changes and destroy them, respectively:
 ```
 terraform plan
-terraform apply 
+terraform apply
 terraform destroy
 ```
 
---- 
+---
 ### Install docker in all VMs created
 https://docs.docker.com/install/linux/docker-ce/debian/#install-from-a-package
+
+---
+### Install rke in local computer
+https://rancher.com/docs/rke/v0.1.x/en/installation/
+
+---
+### Deploy remote k8s cluster
+
+Modify the file `rancher-cluster.yml` to include the correct IPs and username so rancher can access the VMs and create the cluster. Note that you may also need to change your firewall rules to allow traffic in ports 443, 2380, 2379, 10250 and 6443.
+
+---
+### Move k8s local file created by rancher to k8s local configuration folder
+
+Move k8s configuration file created by rancher to the local configuration folder so k8s can locate the file and reach the nodes. Alternatively, you can also set the `KUBECONFIG` environmental variable to the path of `kube_config_rancher-cluster.yml`.
+```
+cp kube_config_rancher-cluster.yml ~/.kube/config
+- or -
+export KUBECONFIG=$(pwd)/kube_config_rancher-cluster.yml
+```
+
+---
