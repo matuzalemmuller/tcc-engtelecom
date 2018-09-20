@@ -40,7 +40,7 @@ Download and install Google SDK:
 curl https://sdk.cloud.google.com | bash
 ```
 
-Start the gcloud enviroment and connect to your account and project:
+Start the gcloud environment and connect to your account and project:
 ```
 gcloud init
 ```
@@ -48,7 +48,7 @@ gcloud init
 ---
 ### Modify terramaster-cluster.tf file to include correct account information and credentials
 
-Generate local SSH keys, which will be used to connect to the remote VMs. Save both keys with the default name (id_rsa) and blace both keys inside the directory "keys":
+Generate local SSH keys, which will be used to connect to the remote VMs. Save both keys with the default name (id_rsa) and place both keys inside the directory "keys":
 ```
 ssh-keygen -t rsa -b 4096 -C "email@domain.com"
 ```
@@ -86,6 +86,14 @@ https://rancher.com/docs/rke/v0.1.x/en/installation/
 
 Modify the file `rancher-cluster.yml` to include the correct IPs and username so rancher can access the VMs and create the cluster. Note that you may also need to change your firewall rules to allow traffic in ports 443, 2380, 2379, 10250 and 6443.
 
+After changing the file, deploy the remote k8s cluster using rke:
+
+```
+rke up --config ./rancher-cluster.yml
+```
+
+Note that the version of docker installed in the VM needs to be compatible with the rke version installed in the local computer. For example, at the time this project is being worked on (Q3 of 2018), the latest stable release of rke is 1.9.0, which supports docker-ce 17.03.x. This is not the latest version of Docker at this time.
+
 ---
 ### Move k8s local file created by rancher to k8s local configuration folder
 
@@ -94,6 +102,22 @@ Move k8s configuration file created by rancher to the local configuration folder
 cp kube_config_rancher-cluster.yml ~/.kube/config
 - or -
 export KUBECONFIG=$(pwd)/kube_config_rancher-cluster.yml
+```
+
+---
+### Install helm in remote k8s cluster
+
+See https://github.com/helm/helm for instructions on how to install Helm.
+
+After installing Helm, create the ServiceAccount and ClusterRobeBinding for the tiller service to manage charts.
+```
+kubectl -n kube-system create serviceaccount tiller
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+```
+
+Start Helm to be able to manage charts:
+```
+helm init
 ```
 
 ---
