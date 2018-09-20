@@ -1,5 +1,5 @@
 nodes:
-  - address: 35.198.47.124
+  - address: 35.198.9.172
     internal_address: 10.0.0.100
     user: matuzalemmuller
     role: [controlplane,worker,etcd]
@@ -7,10 +7,10 @@ nodes:
   - address: 35.199.125.245
     internal_address: 10.0.0.101
     user: matuzalemmuller
-    role: [controlplane,worker,etcd]
+    role: [worker,etcd]
     ssh_key_path: keys/id_rsa
   - address: 35.198.12.41
     internal_address: 10.0.0.102
     user: matuzalemmuller
-    role: [controlplane,worker,etcd]
+    role: [worker,etcd]
     ssh_key_path: keys/id_rsa
