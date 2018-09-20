@@ -57,14 +57,14 @@ resource "google_compute_firewall" "firewall-0" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22", "443"]
+    ports    = ["22", "443", "2380", "2379", "6443", "10250"]
   }
 }
 
 // Compute
 resource "google_compute_instance" "vm-0" {
   name         = "vm-0"
-  machine_type = "n1-standard-1"
+  machine_type = "n1-standard-2"
   zone         = "southamerica-east1-a"
 
   boot_disk {
@@ -88,7 +88,7 @@ resource "google_compute_instance" "vm-0" {
 
 resource "google_compute_instance" "vm-1" {
   name         = "vm-1"
-  machine_type = "n1-standard-1"
+  machine_type = "n1-standard-2"
   zone         = "southamerica-east1-a"
 
   boot_disk {
@@ -112,7 +112,7 @@ resource "google_compute_instance" "vm-1" {
 
 resource "google_compute_instance" "vm-2" {
   name         = "vm-2"
-  machine_type = "n1-standard-1"
+  machine_type = "n1-standard-2"
   zone         = "southamerica-east1-a"
 
   boot_disk {
