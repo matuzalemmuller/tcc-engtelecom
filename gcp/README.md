@@ -76,6 +76,7 @@ terraform destroy
 ---
 ### Install docker in all VMs created
 https://docs.docker.com/install/linux/docker-ce/debian/#install-from-a-package
+https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/
 
 ---
 ### Install rke in local computer
