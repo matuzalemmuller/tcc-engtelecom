@@ -92,9 +92,14 @@ terraform destroy
 
 ---
 ### Install docker in all VMs created
-https://docs.docker.com/install/linux/docker-ce/debian/#install-from-a-package
 
+https://docs.docker.com/install/linux/docker-ce/debian/#install-from-a-package
 https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/
+
+Give permissions to the user created in the remote VMs to run docker:
+```
+sudo usermod -aG docker <username>
+```
 
 ---
 ### Install rke in local computer
