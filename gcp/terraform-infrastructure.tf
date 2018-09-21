@@ -59,6 +59,11 @@ resource "google_compute_firewall" "firewall-0" {
     protocol = "tcp"
     ports    = ["22", "443", "2380", "2379", "6443", "10250"]
   }
+
+  allow {
+    protocol = "udp"
+    port     = ["500", "4500"]
+  }
 }
 
 // Compute
