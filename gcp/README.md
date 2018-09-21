@@ -8,13 +8,13 @@ Table of contents
   * [Create a project in GCP](#create-a-project-in-gcp)
   * [Setup Terraform in local device](#setup-terraform-in-local-device)
   * [Download and install Google SDK](#download-and-install-google-sdk)
-  * [Modify terraform-cluster.tf file to include correct account information and credentials](#modify-terraform-clustertf-file-to-include-correct-account-information-and-credentials)
+  * [Modify terraform-cluster.tf file to include correct account information and credentials](#modify-terraform-infrastructuretf-file-to-include-correct-account-information-and-credentials)
   * [Run Terraform and create the GCP infrastructure](#run-terraform-and-create-the-gcp-infrastructure)
   * [Install docker in all VMs created](#install-docker-in-all-vms-created)
   * [Install rke in local computer](#install-rke-in-local-computer)
   * [Deploy remote k8s cluster](#deploy-remote-k8s-cluster)
   * [Move k8s local file created by rancher to k8s local configuration folder](#deploy-remote-k8s-cluster)
-  * [Install helm in remote k8s cluster](#install-helm-in-remote-k8s-cluster)
+  * [(Optional) Install helm in remote k8s cluster](#optional-install-helm-in-remote-k8s-cluster)
 
 <!--te-->
 
@@ -124,7 +124,7 @@ export KUBECONFIG=$(pwd)/kube_config_cluster.yml
 ```
 
 ---
-### Install helm in remote k8s cluster
+### (Optional) Install helm in remote k8s cluster
 
 See https://github.com/helm/helm for instructions on how to install Helm in your local computer.
 
