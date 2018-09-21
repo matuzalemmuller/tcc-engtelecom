@@ -8,7 +8,7 @@ Table of contents
   * [Create a project in GCP](#create-a-project-in-gcp)
   * [Setup Terraform in local device](#setup-terraform-in-local-device)
   * [Download and install Google SDK](#download-and-install-google-sdk)
-  * [Modify terraform-cluster.tf file to include correct account information and credentials](#modify-terraform-infrastructuretf-file-to-include-correct-account-information-and-credentials)
+  * [Modify terraform-infrastructure.tf file to include correct account information and credentials](#modify-terraform-infrastructuretf-file-to-include-correct-account-information-and-credentials)
   * [Run Terraform and create the GCP infrastructure](#run-terraform-and-create-the-gcp-infrastructure)
   * [Install docker in all VMs created](#install-docker-in-all-vms-created)
   * [Install rke in local computer](#install-rke-in-local-computer)
