@@ -53,7 +53,7 @@ Generate local SSH keys, which will be used to connect to the remote VMs. Save b
 ssh-keygen -t rsa -b 4096 -C "email@domain.com"
 ```
 
-Modify the file `terraform-cluster.tf` to include the user that will be created in the remote VMs and point to the project created in GCP (note that you should include the project ID):
+Modify the file `terraform-infrastructure.tf` to include the user that will be created in the remote VMs and point to the project created in GCP (note that you should include the project ID):
 ```
 (line 3)  default = "user"
 ...
@@ -84,10 +84,10 @@ https://rancher.com/docs/rke/v0.1.x/en/installation/
 ---
 ### Deploy remote k8s cluster
 
-Modify the file `rancher-cluster.yml` to include the correct IPs and username so rancher can access the VMs and create the cluster. After changing the file, deploy the remote k8s cluster using rke:
+Modify the file `cluster.yml` to include the correct IPs and username so rancher can access the VMs and create the cluster. After changing the file, deploy the remote k8s cluster using rke:
 
 ```
-rke up --config ./rancher-cluster.yml
+rke up --config ./cluster.yml
 ```
 
 * Note that when the VMs were started using terraform all the necessary firewall rules should have been setup already, but you may also need to change your settings to allow additional ports.
@@ -97,11 +97,11 @@ rke up --config ./rancher-cluster.yml
 ---
 ### Move k8s local file created by rancher to k8s local configuration folder
 
-Move k8s configuration file created by rancher to the local configuration folder so k8s can locate the file and reach the nodes. Alternatively, you can also set the `KUBECONFIG` environmental variable to the path of `kube_config_rancher-cluster.yml`.
+Move k8s configuration file created by rancher to the local configuration folder so k8s can locate the file and reach the nodes. Alternatively, you can also set the `KUBECONFIG` environmental variable to the path of `kube_config_cluster.yml`.
 ```
-cp kube_config_rancher-cluster.yml ~/.kube/config
+cp kube_config_cluster.yml ~/.kube/config
 - or -
-export KUBECONFIG=$(pwd)/kube_config_rancher-cluster.yml
+export KUBECONFIG=$(pwd)/kube_config_cluster.yml
 ```
 
 ---
