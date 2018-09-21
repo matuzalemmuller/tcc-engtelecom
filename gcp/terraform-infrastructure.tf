@@ -63,7 +63,7 @@ resource "google_compute_firewall" "firewall-0" {
 }
 
 // Compute
-resource "google_compute_instance" "master-vm-0" {
+resource "google_compute_instance" "vm-0" {
   name         = "vm-0"
   machine_type = "n1-standard-2"
   zone         = "southamerica-east1-a"
@@ -87,7 +87,7 @@ resource "google_compute_instance" "master-vm-0" {
   tags = ["k8s"]
 }
 
-resource "google_compute_instance" "worker1-vm-1" {
+resource "google_compute_instance" "vm-1" {
   name         = "vm-1"
   machine_type = "n1-standard-2"
   zone         = "southamerica-east1-a"
@@ -111,7 +111,7 @@ resource "google_compute_instance" "worker1-vm-1" {
   tags = ["k8s"]
 }
 
-resource "google_compute_instance" "worker2-vm-2" {
+resource "google_compute_instance" "vm-2" {
   name         = "vm-2"
   machine_type = "n1-standard-2"
   zone         = "southamerica-east1-a"
