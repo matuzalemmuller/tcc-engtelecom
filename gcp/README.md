@@ -18,9 +18,7 @@ Table of contents
 
 <!--te-->
 
-
 ---
-
 ### Create a project in GCP
 
 https://cloud.google.com/resource-manager/docs/creating-managing-projects
@@ -63,14 +61,14 @@ gcloud init
 ```
 
 ---
-### Modify terraform-cluster.tf file to include correct account information and credentials
+### Modify remote-setup/terraform-cluster.tf file to include correct account information and credentials
 
 Generate local SSH keys, which will be used to connect to the remote VMs. Save both keys with default name (id_rsa) and place both keys inside the directory "keys":
 ```
 ssh-keygen -t rsa -b 4096 -C "email@domain.com"
 ```
 
-Modify the file `terraform-infrastructure.tf` to include the user that will be created in the remote VMs and point to the project created in GCP (note that you should include the project ID):
+Modify the file `remote-setup/terraform-infrastructure.tf` to include the user that will be created in the remote VMs and point to the project created in GCP (note that you should include the project ID):
 ```
 (line 3)  default = "user"
 ...
@@ -83,7 +81,7 @@ https://console.cloud.google.com/apis/credentials/serviceaccountkey
 ---
 ### Run Terraform and create the GCP infrastructure
 
-Run the following commands to see the changes that will be made by terraform, apply these changes and destroy them, respectively:
+Run the following commands within the `remote-setup` folder to see the changes that will be made by terraform, apply these changes and destroy them, respectively:
 ```
 terraform plan
 terraform apply
@@ -108,7 +106,7 @@ https://rancher.com/docs/rke/v0.1.x/en/installation/
 ---
 ### Deploy remote k8s cluster
 
-Modify the file `cluster.yml` to include the correct IPs and username so rancher can access the VMs and create the cluster. After changing the file, deploy the remote k8s cluster using rke:
+Modify the file `remote-setup/cluster.yml` to include the correct IPs and username so rancher can access the VMs and create the cluster. After changing the file, deploy the remote k8s cluster using rke:
 
 ```
 rke up --config ./cluster.yml

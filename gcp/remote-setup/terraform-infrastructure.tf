@@ -71,6 +71,7 @@ resource "google_compute_instance" "vm-0" {
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-9"
+      size = "15"
     }
   }
 
@@ -95,6 +96,7 @@ resource "google_compute_instance" "vm-1" {
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-9"
+      size = "15"
     }
   }
 
@@ -119,6 +121,7 @@ resource "google_compute_instance" "vm-2" {
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-9"
+      size = "15"
     }
   }
 
