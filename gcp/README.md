@@ -1,6 +1,13 @@
 This documentation presents step by step instructions on how to set up a kubernetes cluster in Virtual Machines (VMs) from Google Cloud Platform (GCP). The cloud infrastructure is launched using Terraform, while the kubernetes cluster is remotely setup using Docker & Rancher. The instructions from this article are for OSX, but are also applicable to Linux hosts and possibly Windows devices.
 
 * Instructions on how to use Terraform to launch VMs are based in: https://medium.com/@josephbleroy/using-terraform-with-google-cloud-platform-part-1-n-6b5e4074c059
+* Below are the versions of each software used in this project:
+  * Terraform v0.11.8
+  * RKE v0.1.9
+  * Docker v17.03.3
+  * Rook v0.8.2
+  * kubectl v1.11.0
+  * Kubernetes v.___________
 
 Table of contents
 =================
@@ -52,6 +59,7 @@ terraform -v
 
 Download and install Google SDK:
 ```
+cd remote-setup
 curl https://sdk.cloud.google.com | bash
 ```
 
@@ -61,7 +69,7 @@ gcloud init
 ```
 
 ---
-### Modify remote-setup/terraform-cluster.tf file to include correct account information and credentials
+### Modify terraform-infrastructure.tf file to include correct account information and credentials
 
 Generate local SSH keys, which will be used to connect to the remote VMs. Save both keys with default name (id_rsa) and place both keys inside the directory "keys":
 ```
@@ -121,7 +129,7 @@ rke up --config ./cluster.yml
 
 Move k8s configuration file created by rancher to the local configuration folder so k8s can locate the file and reach the nodes. Alternatively, you can also set the `KUBECONFIG` environmental variable to the path of `kube_config_cluster.yml`.
 ```
-cp kube_config_cluster.yml ~/.kube/config
+mv kube_config_cluster.yml config/ && cp config/kube_config_cluster.yml ~/.kube/config
 - or -
 export KUBECONFIG=$(pwd)/kube_config_cluster.yml
 ```
