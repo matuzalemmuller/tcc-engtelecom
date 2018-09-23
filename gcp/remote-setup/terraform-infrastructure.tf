@@ -7,6 +7,10 @@ variable "gce_ssh_pub_key_file" {
   default = "keys/id_rsa.pub"
 }
 
+data "template_file" "startup_script" {
+  template = "${file("startup_script.sh")}"
+}
+
 // Provider
 provider "google" {
   // https://console.cloud.google.com/apis/credentials/serviceaccountkey
@@ -90,6 +94,8 @@ resource "google_compute_instance" "vm-0" {
     sshKeys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
   }
 
+  metadata_startup_script = "${data.template_file.startup_script.rendered}"
+
   tags = ["k8s"]
 }
 
@@ -115,6 +121,8 @@ resource "google_compute_instance" "vm-1" {
     sshKeys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
   }
 
+  metadata_startup_script = "${data.template_file.startup_script.rendered}"
+
   tags = ["k8s"]
 }
 
@@ -139,6 +147,8 @@ resource "google_compute_instance" "vm-2" {
   metadata {
     sshKeys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
   }
+
+  metadata_startup_script = "${data.template_file.startup_script.rendered}"
 
   tags = ["k8s"]
 }
