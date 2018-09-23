@@ -168,7 +168,7 @@ This command will create 10 pods:
 * 1 rook manager, which will be running in the master node
 
 ---
-### Run rook toolbox
+### Deploy rook toolbox
 
 Rook toolbox allows to connect to the cluster via CLI and analyze the underlying Ceph system running cluster, which helps troubleshooting issues.
 
