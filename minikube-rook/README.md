@@ -20,7 +20,7 @@ Wait for the Agent, Operator and Discover pods to be running in the `rook-ceph-s
 
 Create the Rook cluster:
 ```
-kubectl create -f rook-cluster.yaml
+kubectl create -f cluster.yaml
 ```
 Wait for the monitors and OSD pods to be running.
 

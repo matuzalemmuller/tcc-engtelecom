@@ -7,6 +7,10 @@ variable "gce_ssh_pub_key_file" {
   default = "keys/id_rsa.pub"
 }
 
+data "template_file" "startup_script" {
+  template = "${file("startup_script.sh")}"
+}
+
 // Provider
 provider "google" {
   // https://console.cloud.google.com/apis/credentials/serviceaccountkey
@@ -55,9 +59,17 @@ resource "google_compute_firewall" "firewall-0" {
     protocol = "icmp"
   }
 
+  // https://rancher.com/docs/rancher/v2.x/en/installation/references/
+  // http://docs.ceph.com/docs/mimic/rados/configuration/network-config-ref/
+  // https://docs.openshift.com/container-platform/3.6/dev_guide/expose_service/expose_internal_ip_nodeport.html
   allow {
     protocol = "tcp"
-    ports    = ["22", "443", "2380", "2379", "6443", "10250"]
+    ports    = ["22", "443", "2380", "2379", "6443", "6790", "6800-7300", "8124", "10250", "30000-32767"]
+  }
+  https://github.com/coreos/flannel/blob/master/Documentation/backends.md#vxlan
+  allow {
+    protocol = "udp"
+    ports    = ["8472"]
   }
 }
 
@@ -70,6 +82,7 @@ resource "google_compute_instance" "vm-0" {
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-9"
+      size = "15"
     }
   }
 
@@ -83,6 +96,8 @@ resource "google_compute_instance" "vm-0" {
     sshKeys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
   }
 
+  //metadata_startup_script = "${data.template_file.startup_script.rendered}"
+
   tags = ["k8s"]
 }
 
@@ -94,6 +109,7 @@ resource "google_compute_instance" "vm-1" {
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-9"
+      size = "15"
     }
   }
 
@@ -107,6 +123,8 @@ resource "google_compute_instance" "vm-1" {
     sshKeys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
   }
 
+  //metadata_startup_script = "${data.template_file.startup_script.rendered}"
+
   tags = ["k8s"]
 }
 
@@ -118,6 +136,7 @@ resource "google_compute_instance" "vm-2" {
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-9"
+      size = "15"
     }
   }
 
@@ -130,6 +149,8 @@ resource "google_compute_instance" "vm-2" {
   metadata {
     sshKeys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
   }
+
+  //metadata_startup_script = "${data.template_file.startup_script.rendered}"
 
   tags = ["k8s"]
 }
