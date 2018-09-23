@@ -21,6 +21,9 @@ Table of contents
   * [Install rke in local computer](#install-rke-in-local-computer)
   * [Deploy remote k8s cluster](#deploy-remote-k8s-cluster)
   * [Move k8s local file created by rancher to k8s local configuration folder](#deploy-remote-k8s-cluster)
+  * [Deploy rook operator](#deploy-rook-operator)
+  * [Deploy rook cluster](#deploy-rook-cluster)
+  * [Deploy rook toolbox](#deploy-rook-toolbox)
   * [(Optional) Install helm in remote k8s cluster](#optional-install-helm-in-remote-k8s-cluster)
 
 <!--te-->
@@ -133,6 +136,47 @@ mv kube_config_cluster.yml config/ && cp config/kube_config_cluster.yml ~/.kube/
 - or -
 export KUBECONFIG=$(pwd)/kube_config_cluster.yml
 ```
+
+---
+### Deploy rook operator
+
+This will create the necessary agents, namespaces and other rules necessary to setup a Rook cluster.
+
+```
+cd ../rook-deployment
+kubectl crete -f operator.yaml
+```
+
+This command will create 7 pods:
+* 3 rook agents, which will be running in each node
+* 3 rook discovers, which will be running in each node
+* 1 rook operator, which will be running in the master node
+
+---
+### Deploy rook cluster
+
+This will deploy a rook cluster with monitors (MON), OSDs and a manager (MGR). All the necessary requirements such as namespaces and roles will also be created. However, it will still be necessary to setup for what rook will be used (i.e. object store, filesystem, etc).
+
+```
+kubectl create -f cluster.yaml
+```
+
+This command will create 10 pods:
+* 3 monitors, which will be running in each node
+* 3 osd prepare, which will run and complete in each node
+* 3 osds, which will be running in each node
+* 1 rook manager, which will be running in the master node
+
+---
+### Run rook toolbox
+
+Rook toolbox allows to connect to the cluster via CLI and analyze the underlying Ceph system running cluster, which helps troubleshooting issues.
+
+```
+kubectl create -f toolbox.yaml
+```
+
+Note: this pod can and will be assigned to any node automatically.
 
 ---
 ### (Optional) Install helm in remote k8s cluster

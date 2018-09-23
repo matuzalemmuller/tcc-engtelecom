@@ -1,3 +1,5 @@
+# https://github.com/rook/rook/blob/master/cluster/examples/kubernetes/ceph/operator.yaml
+
 apiVersion: v1
 kind: Namespace
 metadata:
