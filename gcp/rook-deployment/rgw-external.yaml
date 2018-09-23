@@ -15,6 +15,7 @@ spec:
     port: 80
     protocol: TCP
     targetPort: 80
+    nodePort: 30000
   selector:
     app: rook-ceph-rgw
     rook_cluster: rook-ceph
