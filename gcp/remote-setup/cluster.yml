@@ -1,19 +1,19 @@
 nodes:
-  - address: 35.198.47.124
+  - address: 35.198.60.116
     internal_address: 10.0.0.100
-    user: matuzalem
+    user: matuzalemmuller
     role: [controlplane,worker,etcd]
     ssh_key_path: keys/id_rsa
     hostname_override: master
-  - address: 35.198.9.172
+  - address: 35.198.15.53
     internal_address: 10.0.0.101
-    user: matuzalem
+    user: matuzalemmuller
     role: [worker,etcd]
     hostname_override: worker1
     ssh_key_path: keys/id_rsa
-  - address: 35.198.15.53
+  - address: 35.198.12.41
     internal_address: 10.0.0.102
-    user: matuzalem
+    user: matuzalemmuller
     role: [worker,etcd]
     ssh_key_path: keys/id_rsa
     hostname_override: worker2

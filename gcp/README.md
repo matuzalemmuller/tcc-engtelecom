@@ -7,7 +7,7 @@ This documentation presents step by step instructions on how to set up a kuberne
   * Docker v17.03.3
   * Rook v0.8.2
   * kubectl v1.11.0
-  * Kubernetes v.___________
+  * Kubernetes v.v1.11.1
 
 Table of contents
 =================

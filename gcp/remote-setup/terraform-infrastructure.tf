@@ -55,9 +55,14 @@ resource "google_compute_firewall" "firewall-0" {
     protocol = "icmp"
   }
 
+  // https://rancher.com/docs/rancher/v2.x/en/installation/references/
   allow {
     protocol = "tcp"
     ports    = ["22", "443", "2380", "2379", "6443", "6790", "6800-7300", "8124", "10250"]
+  }
+  allow {
+    protocol = "udp"
+    ports    = ["8472"]
   }
 }
 
