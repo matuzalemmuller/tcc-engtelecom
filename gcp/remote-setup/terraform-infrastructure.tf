@@ -61,9 +61,10 @@ resource "google_compute_firewall" "firewall-0" {
 
   // https://rancher.com/docs/rancher/v2.x/en/installation/references/
   // http://docs.ceph.com/docs/mimic/rados/configuration/network-config-ref/
+  // https://docs.openshift.com/container-platform/3.6/dev_guide/expose_service/expose_internal_ip_nodeport.html
   allow {
     protocol = "tcp"
-    ports    = ["22", "443", "2380", "2379", "6443", "6790", "6800-7300", "8124", "10250"]
+    ports    = ["22", "443", "2380", "2379", "6443", "6790", "6800-7300", "8124", "10250", "30000-32767"]
   }
   https://github.com/coreos/flannel/blob/master/Documentation/backends.md#vxlan
   allow {
