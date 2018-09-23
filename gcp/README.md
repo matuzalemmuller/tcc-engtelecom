@@ -24,7 +24,7 @@ Table of contents
   * [Deploy rook operator](#deploy-rook-operator)
   * [Create rook cluster](#create-rook-cluster)
   * [Run rook toolbox](#run-rook-toolbox)
-  * [Create an Object Store](#create-an-object-store)
+  * [Create an Object Store and Consume Storage](#create-an-object-store-and-consume-storage)
   * [(Optional) Install helm in remote k8s cluster](#optional-install-helm-in-remote-k8s-cluster)
 
 <!--te-->
@@ -180,13 +180,9 @@ kubectl create -f toolbox.yaml
 Note: this pod can and will be assigned to any node automatically.
 
 ---
-### Create an Object Store
+### Create an Object Store and Consume Storage
 
-An Object Store exposes an S3 API to the storage cluster for applications to put and get data.
-
-```
-kubectl create -f object.yaml
-```
+https://rook.github.io/docs/rook/master/object.html
 
 ---
 ### (Optional) Install helm in remote k8s cluster
