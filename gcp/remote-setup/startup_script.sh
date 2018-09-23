@@ -1,22 +1,8 @@
 #!/bin/bash
 
-USERNAME="matuzalemmuller"
-
-# Create script to install docker and give user permission to run it
-cd /home
-touch docker_setup.sh
-echo "#!/bin/bash" >> docker_setup.sh
-echo "CURRENT_USER="$(USERNAME)"" >> docker_setup.sh
-echo "sudo apt update" >> docker_setup.sh
-echo "wget -O docker.deb https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/docker-ce_17.03.3~ce-0~debian-stretch_amd64.deb" >> docker_setup.sh
-echo "sudo dpkg -i docker.deb" >> docker_setup.sh
-echo "sudo apt -f -y install" >> docker_setup.sh
-echo "sudo usermod -aG docker $CURRENT_USER" >> docker_setup.sh
-echo "rm -rf docker*" >> docker_setup.sh
-echo "rm ../docker_setup.sh" >> docker_setup.sh
-
-# Create file to delete monitor files from rook
-touch clear_rook_dataDir.sh
-echo "#!/bin/bash" >> clear_rook_dataDir.sh
-echo "sudo rm -rf /var/lib/rook/*" >> clear_rook_dataDir.sh
-chmod +x clear_rook_dataDir.sh
+# Install docker-ce 17.03.3
+apt update
+wget -O docker.deb https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/docker-ce_17.03.3~ce-0~debian-stretch_amd64.deb
+dpkg -i docker.deb
+apt -f -y install
+rm -rf docker*
