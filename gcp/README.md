@@ -9,7 +9,7 @@ This documentation presents step by step instructions on how to set up a kuberne
   * kubectl v1.11.0
   * Kubernetes v.v1.11.1
 
-<details><summary><big><b>Table of contents</b></big></summary><br />
+<details><summary><font size="+3"><b>Table of contents</b></font></summary><br />
 <br />
 <ul>
   <li>[Create a project in GCP](#create-a-project-in-gcp)</li>
@@ -215,7 +215,7 @@ kubectl -n rook-ceph exec -it rook-tools-XXX bash
 
 Note: this pod can and will be assigned to any node automatically.
 
----
+
 ## Install WordPress chart and use Rook volume & bucket to store files
 
 ### Create Storage Class
