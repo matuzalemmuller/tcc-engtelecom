@@ -236,3 +236,13 @@ helm install stable/wordpress --name wordpress --set persistence.storageClass=ro
 
 * This will install WordPress and create volumes based in the storage class `rook-ceph-block`
 * More configurable parameters can be checked at https://github.com/helm/charts/tree/master/stable/wordpress
+
+---
+
+# Common issues
+
+* Can't install cart because there's already a chart with that name installed even though it was removed: remove chart again using `--purge` flag
+* `rook-ceph` namespace stuck in terminating status: https://github.com/rook/rook/issues/1488#issuecomment-365058080
+* Monitors failing to start: https://github.com/rook/rook/issues/1488#issuecomment-365058080
+* OSDs failing to start: https://github.com/rook/rook/issues/1488#issuecomment-365058080
+* Volume creation doesn't work: https://github.com/rook/rook/issues/1488#issuecomment-365058080
