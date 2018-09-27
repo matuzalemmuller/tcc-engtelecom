@@ -1,4 +1,4 @@
-This documentation presents step by step instructions on how to run a WordPress application with MySQL database in a remote Kubernetes cluster located on Google Cloud Platform (GCP) using Rook as the storage orchestrator.
+This documentation presents step by step instructions on how to run a WordPress application with MySQL database in a remote Kubernetes cluster using Rook as the storage orchestrator.
 
 * Below are the versions of each software used in this project:
  * Docker v17.03.3
