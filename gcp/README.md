@@ -1,9 +1,9 @@
 This documentation presents step by step instructions on how to run a WordPress application with MySQL database in a remote Kubernetes cluster using Rook as the storage orchestrator.
 
 * Below are the versions of each software used in this project:
- * Docker v17.03.3
- * kubectl v1.11.0
- * Kubernetes v.v1.11.1
+  * Docker v17.03.3
+  * kubectl v1.11.0
+  * Kubernetes v.v1.11.1
 
 ### Table of contents
 <!--ts-->
