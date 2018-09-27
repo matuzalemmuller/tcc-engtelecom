@@ -11,7 +11,7 @@ This documentation presents step by step instructions on how to set up a kuberne
 ### Table of contents
 <!--ts-->
  * [Create a project in GCP](#create-a-project-in-gcp)</li>
- * [Setup Terraform in local device](#setup-terraform-in-local-device)</li>
+ * [Set up Terraform in local device](#set-up-terraform-in-local-device)</li>
  * [Download and install Google SDK](#download-and-install-google-sdk)</li>
  * [Modify terraform-infrastructure.tf file to include correct account information and credentials](#modify-terraform-infrastructuretf-file-to-include-correct-account-information-and-credentials)</li>
  * [Run Terraform and create the GCP infrastructure](#run-terraform-and-create-the-gcp-infrastructure)</li>
@@ -28,7 +28,7 @@ This documentation presents step by step instructions on how to set up a kuberne
 https://cloud.google.com/resource-manager/docs/creating-managing-projects
 
 ---
-### Setup Terraform in local device
+### Set up Terraform in local device
 
 Install Terraform in local device:
 ```

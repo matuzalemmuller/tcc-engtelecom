@@ -7,7 +7,7 @@ This documentation presents step by step instructions on how to run a WordPress 
 
 ### Table of contents
 <!--ts-->
- * [Setup remote infrastructure](#set-up-remote-infrastructure)
+ * [Set up remote infrastructure](#set-up-remote-infrastructure)
  * [Install Rook Operator chart using Helm](#install-rook-operator-chart-using-helm)</li>
  * [Create Rook cluster](#create-rook-cluster)</li>
  * [Run Rook toolbox](#run-rook-toolbox)</li>
@@ -19,7 +19,7 @@ This documentation presents step by step instructions on how to run a WordPress 
 ---
 ### Set up remote infrastructure
 
-See [this documentation](https://gitlab.com/matuzalemmuller/tcc-engtelecom/tree/rook-helm/gcp/remote-setup) for instructions on how to setup the remote infrastructure and environment.
+See [this documentation](https://gitlab.com/matuzalemmuller/tcc-engtelecom/tree/rook-helm/gcp/remote-setup) for instructions on how to set up the remote infrastructure and environment.
 
 ---
 ## Install Rook
