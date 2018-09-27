@@ -10,24 +10,23 @@ This documentation presents step by step instructions on how to set up a kuberne
   * Kubernetes v.v1.11.1
 
 <details><summary><big><b>Table of contents</b></big></summary>
-<!--ts-->
-  * [Create a project in GCP](#create-a-project-in-gcp)
-  * [Setup Terraform in local device](#setup-terraform-in-local-device)
-  * [Download and install Google SDK](#download-and-install-google-sdk)
-  * [Modify terraform-infrastructure.tf file to include correct account information and credentials](#modify-terraform-infrastructuretf-file-to-include-correct-account-information-and-credentials)
-  * [Run Terraform and create the GCP infrastructure](#run-terraform-and-create-the-gcp-infrastructure)
-  * [Install docker in all VMs created](#install-docker-in-all-vms-created)
-  * [Install rke in local computer](#install-rke-in-local-computer)
-  * [Deploy remote k8s cluster](#deploy-remote-k8s-cluster)
-  * [Move k8s local file created by rancher to k8s local configuration folder](#deploy-remote-k8s-cluster)
-  * [Install Helm in remote k8s cluster](#install-Helm-in-remote-k8s-cluster)
-  * [Install Rook Operator chart using Helm](#install-rook-operator-chart-using-Helm)
-  * [Create Rook cluster](#create-rook-cluster)
-  * [Run Rook toolbox](#run-rook-toolbox)
-  * [Create Storage Class](#create-storage-class)
-  * [Install WordPress chart](#install-wordpress-chart)
-
-<!--te-->
+<ul>
+  <li>[Create a project in GCP](#create-a-project-in-gcp)</li>
+  <li>[Setup Terraform in local device](#setup-terraform-in-local-device)</li>
+  <li>[Download and install Google SDK](#download-and-install-google-sdk)</li>
+  <li>[Modify terraform-infrastructure.tf file to include correct account information and credentials](#modify-terraform-infrastructuretf-file-to-include-correct-account-information-and-credentials)</li>
+  <li>[Run Terraform and create the GCP infrastructure](#run-terraform-and-create-the-gcp-infrastructure)</li>
+  <li>[Install docker in all VMs created](#install-docker-in-all-vms-created)</li>
+  <li>[Install rke in local computer](#install-rke-in-local-computer)</li>
+  <li>[Deploy remote k8s cluster](#deploy-remote-k8s-cluster)</li>
+  <li>[Move k8s local file created by rancher to k8s local configuration folder](#move-k8s-local-file-created-by-rancher-to-k8s-local-configuration-folder)</li>
+  <li>[Install Helm in remote k8s cluster](#install-helm-in-remote-k8s-cluster)</li>
+  <li>[Install Rook Operator chart using Helm](#install-rook-operator-chart-using-helm)</li>
+  <li>[Create Rook cluster](#create-rook-cluster)</li>
+  <li>[Run Rook toolbox](#run-rook-toolbox)</li>
+  <li>[Create Storage Class](#create-storage-class)</li>
+  <li>[Install WordPress chart](#install-wordpress-chart)</li>
+</ul>
 </details>
 
 ## Setup remote infrastructure
@@ -143,7 +142,7 @@ export KUBECONFIG=$(pwd)/kube_config_cluster.yml
 ---
 ### Install Helm in remote k8s cluster
 
-See https://github.com/Helm/Helm for instructions on how to install Helm in your local computer.
+See https://github.com/helm/helm for instructions on how to install Helm in your local computer.
 
 Since RBAC is enabled in the cluster it's necessary to create a ServiceAccount and ClusterRobeBinding for the tiller service to manage charts.
 ```
@@ -154,7 +153,7 @@ kubectl --namespace kube-system patch deploy/tiller-deploy -p '{"spec": {"templa
 
 Start Helm to be able to manage charts:
 ```
-Helm init
+helm init
 ```
 
 ---
@@ -164,12 +163,12 @@ Helm init
 
 Add the rook beta channel to Helm:
 ```
-Helm repo add rook-beta https://charts.rook.io/beta
+helm repo add rook-beta https://charts.rook.io/beta
 ```
 
 Install the rook chart:
 ```
-Helm install  rook-beta/rook-ceph --namespace rook-ceph-system --name rook-ceph --set agent.flexVolumeDirPath=/var/lib/kubelet/volumeplugins
+helm install  rook-beta/rook-ceph --namespace rook-ceph-system --name rook-ceph --set agent.flexVolumeDirPath=/var/lib/kubelet/volumeplugins
 ```
 
 Installing the operator will create 7 pods:
