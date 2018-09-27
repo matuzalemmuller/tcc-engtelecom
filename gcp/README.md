@@ -169,7 +169,7 @@ helm repo add rook-beta https://charts.rook.io/beta
 
 Install the rook chart:
 ```
-helm install  rook-beta/rook-ceph --namespace rook-ceph-system --name rook-ceph --set agent.flexVolumeDirPath=/var/lib/kubelet/volumeplugins
+helm install rook-beta/rook-ceph --namespace rook-ceph-system --name rook-chart --set agent.flexVolumeDirPath=/var/lib/kubelet/volumeplugins
 ```
 
 Installing the operator will create 7 pods:
@@ -242,7 +242,7 @@ helm install stable/wordpress --name wordpress --set persistence.storageClass=ro
 # Common issues
 
 * Can't install cart because there's already a chart with that name installed even though it was removed: remove chart again using `--purge` flag
-* `rook-ceph` namespace stuck in terminating status: https://github.com/rook/rook/issues/1488#issuecomment-365058080
+* `rook-ceph` namespace stuck in terminating status: https://github.com/rook/rook/issues/1488#issuecomment-397241621
 * Monitors failing to start: https://github.com/rook/rook.github.io/blob/master/docs/rook/v0.7/common-problems.md#failing-mon-pod
 * OSDs failing to start: https://github.com/rook/rook.github.io/blob/master/docs/rook/v0.7/common-problems.md#osd-pods-are-failing-to-start
 * Volume creation doesn't work: https://github.com/rook/rook.github.io/blob/master/docs/rook/v0.7/common-problems.md#volume-creation
