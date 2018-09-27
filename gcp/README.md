@@ -9,8 +9,7 @@ This documentation presents step by step instructions on how to set up a kuberne
   * kubectl v1.11.0
   * Kubernetes v.v1.11.1
 
-Table of contents
-=================
+<details><summary><big><b>Table of contents</b></big></summary>
 <!--ts-->
   * [Create a project in GCP](#create-a-project-in-gcp)
   * [Setup Terraform in local device](#setup-terraform-in-local-device)
@@ -21,17 +20,18 @@ Table of contents
   * [Install rke in local computer](#install-rke-in-local-computer)
   * [Deploy remote k8s cluster](#deploy-remote-k8s-cluster)
   * [Move k8s local file created by rancher to k8s local configuration folder](#deploy-remote-k8s-cluster)
-  * [Install helm in remote k8s cluster](#install-helm-in-remote-k8s-cluster)
-  * [Install Rook Operator chart using helm](#install-rook-operator-chart-using-helm)
-  * [Create rook cluster](#create-rook-cluster)
-  * [Run rook toolbox](#run-rook-toolbox)
-  * [Create an Object Store and Consume Storage](#create-an-object-store-and-consume-storage)
+  * [Install Helm in remote k8s cluster](#install-Helm-in-remote-k8s-cluster)
+  * [Install Rook Operator chart using Helm](#install-rook-operator-chart-using-Helm)
+  * [Create Rook cluster](#create-rook-cluster)
+  * [Run Rook toolbox](#run-rook-toolbox)
+  * [Create Storage Class](#create-storage-class)
+  * [Install WordPress chart](#install-wordpress-chart)
 
 <!--te-->
+</details>
 
 ## Setup remote infrastructure
 
----
 ### Create a project in GCP
 
 https://cloud.google.com/resource-manager/docs/creating-managing-projects
@@ -141,9 +141,9 @@ export KUBECONFIG=$(pwd)/kube_config_cluster.yml
 ```
 
 ---
-### Install helm in remote k8s cluster
+### Install Helm in remote k8s cluster
 
-See https://github.com/helm/helm for instructions on how to install Helm in your local computer.
+See https://github.com/Helm/Helm for instructions on how to install Helm in your local computer.
 
 Since RBAC is enabled in the cluster it's necessary to create a ServiceAccount and ClusterRobeBinding for the tiller service to manage charts.
 ```
@@ -154,23 +154,22 @@ kubectl --namespace kube-system patch deploy/tiller-deploy -p '{"spec": {"templa
 
 Start Helm to be able to manage charts:
 ```
-helm init
+Helm init
 ```
 
 ---
 ## Install Rook
 
----
-### Install Rook Operator chart using helm
+### Install Rook Operator chart using Helm
 
-Add the rook beta channel to helm:
+Add the rook beta channel to Helm:
 ```
-helm repo add rook-beta https://charts.rook.io/beta
+Helm repo add rook-beta https://charts.rook.io/beta
 ```
 
 Install the rook chart:
 ```
-helm install  rook-beta/rook-ceph --namespace rook-ceph-system --name rook-ceph --set agent.flexVolumeDirPath=/var/lib/kubelet/volumeplugins
+Helm install  rook-beta/rook-ceph --namespace rook-ceph-system --name rook-ceph --set agent.flexVolumeDirPath=/var/lib/kubelet/volumeplugins
 ```
 
 Installing the operator will create 7 pods:
@@ -217,6 +216,8 @@ kubectl -n rook-ceph exec -it rook-tools-XXX bash
 Note: this pod can and will be assigned to any node automatically.
 
 ---
+## Install WordPress chart and use Rook volume & bucket to store files
+
 ### Create Storage Class
 
 Deploy storage class:
@@ -226,23 +227,12 @@ kubectl create -f storage-class.yaml
 ````
 
 ---
-### Create Persistent Volume Claim (Rook Volume)
+### Install WordPress chart
 
-This volume will be created as a ```rook-ceph-block```, which is the storage class deployed in the previous step.
-
+Install WordPress chart using Helm:
 ```
-kubectl create -f pvc.yaml
-```
-
----
-# Install WordPress chart to consume storage from Rook volume
-
+helm install stable/wordpress --name wordpress --set persistence.storageClass=rook-ceph-block
 ```
 
-```
-
-
-
-### Create an Object Store and Consume Storage
-
-https://rook.github.io/docs/rook/master/object.html
+* This will install WordPress and create volumes based in the storage class `rook-ceph-block`
+* More configurable parameters can be checked at https://github.com/helm/charts/tree/master/stable/wordpress
