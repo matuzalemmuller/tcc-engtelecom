@@ -5,7 +5,7 @@ This documentation presents step by step instructions on how to set up a kuberne
   * Terraform v0.11.8
   * RKE v0.1.9
   * Docker v17.03.3
-  * Rook v0.8.2
+  * Rook v0.8.2 (beta)
   * kubectl v1.11.0
   * Kubernetes v.v1.11.1
 
@@ -21,13 +21,15 @@ Table of contents
   * [Install rke in local computer](#install-rke-in-local-computer)
   * [Deploy remote k8s cluster](#deploy-remote-k8s-cluster)
   * [Move k8s local file created by rancher to k8s local configuration folder](#deploy-remote-k8s-cluster)
-  * [Deploy rook operator](#deploy-rook-operator)
+  * [Install helm in remote k8s cluster](#install-helm-in-remote-k8s-cluster)
+  * [Install Rook Operator chart using helm](#install-rook-operator-chart-using-helm)
   * [Create rook cluster](#create-rook-cluster)
   * [Run rook toolbox](#run-rook-toolbox)
   * [Create an Object Store and Consume Storage](#create-an-object-store-and-consume-storage)
-  * [(Optional) Install helm in remote k8s cluster](#optional-install-helm-in-remote-k8s-cluster)
 
 <!--te-->
+
+## Setup remote infrastructure
 
 ---
 ### Create a project in GCP
@@ -139,19 +141,44 @@ export KUBECONFIG=$(pwd)/kube_config_cluster.yml
 ```
 
 ---
-### Deploy Rook Operator
+### Install helm in remote k8s cluster
 
-This will create the necessary agents, namespaces and other rules necessary to setup a Rook cluster.
+See https://github.com/helm/helm for instructions on how to install Helm in your local computer.
 
+Since RBAC is enabled in the cluster it's necessary to create a ServiceAccount and ClusterRobeBinding for the tiller service to manage charts.
 ```
-cd ../rook-deployment
-kubectl crete -f operator.yaml
+kubectl --namespace kube-system create sa tiller
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+kubectl --namespace kube-system patch deploy/tiller-deploy -p '{"spec": {"template": {"spec": {"serviceAccountName": "tiller"}}}}'
 ```
 
-This command will create 7 pods:
+Start Helm to be able to manage charts:
+```
+helm init
+```
+
+---
+## Install Rook
+
+---
+### Install Rook Operator chart using helm
+
+Add the rook beta channel to helm:
+```
+helm repo add rook-beta https://charts.rook.io/beta
+```
+
+Install the rook chart:
+```
+helm install  rook-beta/rook-ceph --namespace rook-ceph-system --name rook-ceph --set agent.flexVolumeDirPath=/var/lib/kubelet/volumeplugins
+```
+
+Installing the operator will create 7 pods:
 * 3 rook agents, which will be running in each node
 * 3 rook discovers, which will be running in each node
 * 1 rook operator, which will be running in the master node
+
+For more information about the configuration "agent.flexVolumeDirPath=/var/lib/kubelet/volumeplugins", visit [this link](https://github.com/rook/rook/blob/master/Documentation/flexvolume.md#configuring-the-rook-operator)
 
 ---
 ### Create Rook Cluster
@@ -177,27 +204,45 @@ Rook toolbox allows to connect to the cluster via CLI and analyze the underlying
 kubectl create -f toolbox.yaml
 ```
 
+Wait for the toolbox to change the status to running:
+```
+kubectl -n rook-ceph get pod rook-tools
+```
+
+Access the rook toolbox pod:
+```
+kubectl -n rook-ceph exec -it rook-tools-XXX bash
+```
+
 Note: this pod can and will be assigned to any node automatically.
 
 ---
+### Create Storage Class
+
+Deploy storage class:
+
+```
+kubectl create -f storage-class.yaml
+````
+
+---
+### Create Persistent Volume Claim (Rook Volume)
+
+This volume will be created as a ```rook-ceph-block```, which is the storage class deployed in the previous step.
+
+```
+kubectl create -f pvc.yaml
+```
+
+---
+# Install WordPress chart to consume storage from Rook volume
+
+```
+
+```
+
+
+
 ### Create an Object Store and Consume Storage
 
 https://rook.github.io/docs/rook/master/object.html
-
----
-### (Optional) Install helm in remote k8s cluster
-
-See https://github.com/helm/helm for instructions on how to install Helm in your local computer.
-
-After installing Helm, create the ServiceAccount and ClusterRobeBinding for the tiller service to manage charts.
-```
-kubectl -n kube-system create serviceaccount tiller
-kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-```
-
-Start Helm to be able to manage charts:
-```
-helm init
-```
-
----
