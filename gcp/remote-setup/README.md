@@ -8,22 +8,21 @@ This documentation presents step by step instructions on how to set up a kuberne
   * kubectl v1.11.0
   * Kubernetes v.v1.11.1
 
-<details><summary><font size="+3"><b>Table of contents</b></font></summary><br />
-<br />
-<ul>
-  <li>[Create a project in GCP](#create-a-project-in-gcp)</li>
-  <li>[Setup Terraform in local device](#setup-terraform-in-local-device)</li>
-  <li>[Download and install Google SDK](#download-and-install-google-sdk)</li>
-  <li>[Modify terraform-infrastructure.tf file to include correct account information and credentials](#modify-terraform-infrastructuretf-file-to-include-correct-account-information-and-credentials)</li>
-  <li>[Run Terraform and create the GCP infrastructure](#run-terraform-and-create-the-gcp-infrastructure)</li>
-  <li>[Install docker in all VMs created](#install-docker-in-all-vms-created)</li>
-  <li>[Install rke in local computer](#install-rke-in-local-computer)</li>
-  <li>[Deploy remote k8s cluster](#deploy-remote-k8s-cluster)</li>
-  <li>[Move k8s local file created by rancher to k8s local configuration folder](#move-k8s-local-file-created-by-rancher-to-k8s-local-configuration-folder)</li>
-  <li>[Install Helm in remote k8s cluster](#install-helm-in-remote-k8s-cluster)</li>
-</ul>
-</details>
+### Table of contents
+<!--ts-->
+ * [Create a project in GCP](#create-a-project-in-gcp)</li>
+ * [Setup Terraform in local device](#setup-terraform-in-local-device)</li>
+ * [Download and install Google SDK](#download-and-install-google-sdk)</li>
+ * [Modify terraform-infrastructure.tf file to include correct account information and credentials](#modify-terraform-infrastructuretf-file-to-include-correct-account-information-and-credentials)</li>
+ * [Run Terraform and create the GCP infrastructure](#run-terraform-and-create-the-gcp-infrastructure)</li>
+ * [Install docker in all VMs created](#install-docker-in-all-vms-created)</li>
+ * [Install rke in local computer](#install-rke-in-local-computer)</li>
+ * [Deploy remote k8s cluster](#deploy-remote-k8s-cluster)</li>
+ * [Move k8s local file created by rancher to k8s local configuration folder](#move-k8s-local-file-created-by-rancher-to-k8s-local-configuration-folder)</li>
+ * [Install Helm in remote k8s cluster](#install-helm-in-remote-k8s-cluster)</li>
+<!--te-->
 
+---
 ### Create a project in GCP
 
 https://cloud.google.com/resource-manager/docs/creating-managing-projects

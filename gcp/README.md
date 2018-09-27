@@ -5,19 +5,19 @@ This documentation presents step by step instructions on how to run a WordPress 
  * kubectl v1.11.0
  * Kubernetes v.v1.11.1
 
-<details><summary><font size="+3"><b>Table of contents</b></font></summary><br />
-<br />
-<ul>
-  <li>[Setup remote infrastructure](#setup-remote-infrastructure)
-  <li>[Install Rook Operator chart using Helm](#install-rook-operator-chart-using-helm)</li>
-  <li>[Create Rook cluster](#create-rook-cluster)</li>
-  <li>[Run Rook toolbox](#run-rook-toolbox)</li>
-  <li>[Create Storage Class](#create-storage-class)</li>
-  <li>[Install WordPress chart](#install-wordpress-chart)</li>
+### Table of contents
+<!--ts-->
+ * [Setup remote infrastructure](#setup-remote-infrastructure)
+ * [Install Rook Operator chart using Helm](#install-rook-operator-chart-using-helm)</li>
+ * [Create Rook cluster](#create-rook-cluster)</li>
+ * [Run Rook toolbox](#run-rook-toolbox)</li>
+ * [Create Storage Class](#create-storage-class)</li>
+ * [Install WordPress chart](#install-wordpress-chart)</li>
 </ul>
-</details>
+<!--te-->
 
-### Setup remote infrastructure
+---
+### Set up remote infrastructure
 
 See [this documentation](https://gitlab.com/matuzalemmuller/tcc-engtelecom/tree/rook-helm/gcp/remote-setup) for instructions on how to setup the remote infrastructure and environment.
 
