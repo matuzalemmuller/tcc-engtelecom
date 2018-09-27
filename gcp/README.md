@@ -243,6 +243,6 @@ helm install stable/wordpress --name wordpress --set persistence.storageClass=ro
 
 * Can't install cart because there's already a chart with that name installed even though it was removed: remove chart again using `--purge` flag
 * `rook-ceph` namespace stuck in terminating status: https://github.com/rook/rook/issues/1488#issuecomment-365058080
-* Monitors failing to start: https://github.com/rook/rook/issues/1488#issuecomment-365058080
-* OSDs failing to start: https://github.com/rook/rook/issues/1488#issuecomment-365058080
-* Volume creation doesn't work: https://github.com/rook/rook/issues/1488#issuecomment-365058080
+* Monitors failing to start: https://github.com/rook/rook.github.io/blob/master/docs/rook/v0.7/common-problems.md#failing-mon-pod
+* OSDs failing to start: https://github.com/rook/rook.github.io/blob/master/docs/rook/v0.7/common-problems.md#osd-pods-are-failing-to-start
+* Volume creation doesn't work: https://github.com/rook/rook.github.io/blob/master/docs/rook/v0.7/common-problems.md#volume-creation
