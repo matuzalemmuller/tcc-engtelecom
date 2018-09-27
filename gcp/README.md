@@ -7,7 +7,7 @@ This documentation presents step by step instructions on how to run a WordPress 
 
 ### Table of contents
 <!--ts-->
- * [Setup remote infrastructure](#setup-remote-infrastructure)
+ * [Setup remote infrastructure](#set-up-remote-infrastructure)
  * [Install Rook Operator chart using Helm](#install-rook-operator-chart-using-helm)</li>
  * [Create Rook cluster](#create-rook-cluster)</li>
  * [Run Rook toolbox](#run-rook-toolbox)</li>
