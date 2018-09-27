@@ -9,7 +9,8 @@ This documentation presents step by step instructions on how to set up a kuberne
   * kubectl v1.11.0
   * Kubernetes v.v1.11.1
 
-<details><summary><big><b>Table of contents</b></big></summary>
+<details><summary><big><b>Table of contents</b></big></summary><br />
+<br />
 <ul>
   <li>[Create a project in GCP](#create-a-project-in-gcp)</li>
   <li>[Setup Terraform in local device](#setup-terraform-in-local-device)</li>
