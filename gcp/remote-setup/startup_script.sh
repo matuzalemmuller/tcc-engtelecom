@@ -6,3 +6,5 @@ wget -O docker.deb https://download.docker.com/linux/debian/dists/stretch/pool/s
 dpkg -i docker.deb
 apt -f -y install
 rm -rf docker*
+
+echo "rbd" >> /etc/modules
