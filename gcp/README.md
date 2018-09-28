@@ -8,12 +8,14 @@ This documentation presents step by step instructions on how to run a WordPress 
 ### Table of contents
 <!--ts-->
  * [Set up remote infrastructure](#set-up-remote-infrastructure)
- * [Install Rook Operator chart using Helm](#install-rook-operator-chart-using-helm)</li>
- * [Create Rook cluster](#create-rook-cluster)</li>
- * [Run Rook toolbox](#run-rook-toolbox)</li>
- * [Create Storage Class](#create-storage-class)</li>
- * [Install WordPress chart](#install-wordpress-chart)</li>
-</ul>
+ * [Install Rook Operator chart using Helm](#install-rook-operator-chart-using-helm)
+ * [Create Rook cluster](#create-rook-cluster)
+ * [Manually load the RBD module in all remote nodes](#manually-load-the-rbd-module-in-all-remote-nodes)
+ * [Create Storage Class](#create-storage-class)
+ * [Set default Storage Class](#set-default-storage-class)
+ * [Install WordPress chart](#install-wordpress-chart)
+ * [Run Rook toolbox](#run-rook-toolbox)
+ * [Common issues](#common-issues)
 <!--te-->
 
 ---
@@ -59,6 +61,45 @@ This command will create 10 pods:
 * 1 rook manager, which will be running in the master node
 
 ---
+## Install WordPress chart and use Rook volume & bucket to store files
+
+### Manually load the RBD module in all remote nodes
+
+Run the following command in each VM:
+
+```
+sudo modprobe rbd
+```
+
+---
+### Create Storage Class
+
+Deploy storage class:
+
+```
+kubectl create -f storage-class.yaml
+````
+
+### Set default Storage Class
+
+Set Storage Class created in previous step to default. This is necessary because the WordPress charts deploys two pods (mariadb & wordpress) and only one of them accepts configuration of a specific storage class (wordpress). Setting the storage class created to default will make both pods create Persistent Volume Claims (PVCs) to the rook storage class.
+
+```
+kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+```
+
+---
+### Install WordPress chart
+
+Install WordPress chart using Helm:
+```
+helm install stable/wordpress --name wordpress --set persistence.storageClass=rook-ceph-block
+```
+
+* This will install WordPress and create volumes based in the storage class `rook-ceph-block`
+* More configurable parameters can be checked at https://github.com/helm/charts/tree/master/stable/wordpress
+
+---
 ### Run Rook Toolbox
 
 Rook toolbox allows to connect to the cluster via CLI and analyze the underlying Ceph system running cluster, which helps troubleshooting issues.
@@ -79,30 +120,7 @@ kubectl -n rook-ceph exec -it rook-tools-XXX bash
 
 Note: this pod can and will be assigned to any node automatically.
 
-
-## Install WordPress chart and use Rook volume & bucket to store files
-
-### Create Storage Class
-
-Deploy storage class:
-
-```
-kubectl create -f storage-class.yaml
-````
-
 ---
-### Install WordPress chart
-
-Install WordPress chart using Helm:
-```
-helm install stable/wordpress --name wordpress --set persistence.storageClass=rook-ceph-block
-```
-
-* This will install WordPress and create volumes based in the storage class `rook-ceph-block`
-* More configurable parameters can be checked at https://github.com/helm/charts/tree/master/stable/wordpress
-
----
-
 # Common issues
 
 * Can't install cart because there's already a chart with that name installed even though it was removed: remove chart again using `--purge` flag
