@@ -68,7 +68,7 @@ replicaCount: 1
 externalDatabase:
 ## All of these values are only used when mariadb.enabled is set to false
   ## Database host
-  host: 10.43.222.68
+  host: 10.42.1.8
 
   ## non-root Username for Wordpress Database
   user: database_user
@@ -122,15 +122,15 @@ mariadb:
       ##   GKE, AWS & OpenStack)
       ##
       # storageClass: "-"
-      accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
       size: 8Gi
 
 ## Kubernetes configuration
 ## For minikube, set this to NodePort, elsewhere use LoadBalancer or ClusterIP
 ##
-serviceType: ClusterIP
+#serviceType: ClusterIP
 ##
-#serviceType: NodePort
+serviceType: NodePort
 ## nodePorts:
 ##   http: <to set explicitly, choose port between 30000-32767>
 ##   https: <to set explicitly, choose port between 30000-32767>

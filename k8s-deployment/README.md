@@ -107,6 +107,12 @@ helm install stable/mysql --name mysql --version v0.10.1 -f mysql-values.yaml
 ---
 ### Install WordPress chart
 
+Modify the file `wordpress-values.yaml` to add the IP address of the pod on which the database is running:
+
+```
+(line 71)  host: ____________________
+```
+
 Install WordPress chart using Helm:
 ```
 helm install stable/wordpress --name wordpress --version v2.1.10 -f wordpress-values.yaml
