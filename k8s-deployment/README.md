@@ -141,6 +141,9 @@ Note: this pod can and will be assigned to any node automatically.
 
 * Can't install cart because there's already a chart with that name installed even though it was removed: remove chart again using `--purge` flag
 * `rook-ceph` namespace stuck in terminating status: https://github.com/rook/rook/issues/1488#issuecomment-397241621
+  ```
+  kubectl -n rook-ceph patch clusters.ceph.rook.io rook-ceph -p '{"metadata":{"finalizers": []}}' --type=merge
+  ```
 * Monitors failing to start: https://github.com/rook/rook.github.io/blob/master/docs/rook/v0.7/common-problems.md#failing-mon-pod
 * OSDs failing to start: https://github.com/rook/rook.github.io/blob/master/docs/rook/v0.7/common-problems.md#osd-pods-are-failing-to-start
 * Volume creation doesn't work: https://github.com/rook/rook.github.io/blob/master/docs/rook/v0.7/common-problems.md#volume-creation
