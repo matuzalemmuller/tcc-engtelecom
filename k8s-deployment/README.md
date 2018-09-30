@@ -1,8 +1,9 @@
 This documentation presents step by step instructions on how to run a WordPress application with MySQL database in a remote Kubernetes cluster using Rook as the storage orchestrator.
 
 * Below are the versions of each software used in this project:
-  * Rook v0.8.2 (beta)
+  * Rook chart v0.8.2 (beta)
   * WordPress chart v2.1.10 (App v4.9.8 - stable)
+  * MySQL chart v0.10.1 (App 5.7.14 - sable)
   * Docker v17.03.3
   * kubectl v1.11.0
   * Kubernetes v.v1.11.1
@@ -15,6 +16,7 @@ This documentation presents step by step instructions on how to run a WordPress 
  * [Manually load the RBD module in all remote nodes](#manually-load-the-rbd-module-in-all-remote-nodes)
  * [Create Storage Class](#create-storage-class)
  * [Set default Storage Class](#set-default-storage-class)
+ * [Install MySQL chart](#install-mysql-chart)
  * [Install WordPress chart](#install-wordpress-chart)
  * [Run Rook toolbox](#run-rook-toolbox)
  * [Common issues](#common-issues)
@@ -84,18 +86,30 @@ kubectl create -f storage-class.yaml
 
 ### Set default Storage Class
 
-Set Storage Class created in previous step to default. This is necessary because the WordPress charts deploys two pods (mariadb & wordpress) and only one of them accepts configuration of a specific storage class (wordpress). Setting the storage class created to default will make both pods create Persistent Volume Claims (PVCs) to the rook storage class.
+Set Storage Class created in previous step to default.
 
 ```
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
 ---
+### Install MySQL chart
+
+Run MySQL database which will be used by WordPress using Helm:
+
+```
+helm install stable/mysql --name mysql --version v0.10.1 -f mysql-values.yaml
+```
+
+* This will install WordPress and create volumes based in the storage class `rook-ceph-block`
+* More configurable parameters can be checked at https://github.com/helm/charts/tree/master/stable/mysql
+
+---
 ### Install WordPress chart
 
 Install WordPress chart using Helm:
 ```
-helm install stable/wordpress --name wordpress --set persistence.storageClass=rook-ceph-block
+helm install stable/wordpress --name wordpress --version v2.1.10 -f wordpress-values.yaml
 ```
 
 * This will install WordPress and create volumes based in the storage class `rook-ceph-block`
