@@ -13,7 +13,6 @@ This documentation presents step by step instructions on how to run a WordPress 
  * [Set up remote infrastructure](#set-up-remote-infrastructure)
  * [Install Rook Operator chart using Helm](#install-rook-operator-chart-using-helm)
  * [Create Rook cluster](#create-rook-cluster)
- * [Manually load the RBD module in all remote nodes](#manually-load-the-rbd-module-in-all-remote-nodes)
  * [Create Storage Class](#create-storage-class)
  * [Set default Storage Class](#set-default-storage-class)
  * [Install MySQL chart](#install-mysql-chart)
@@ -67,15 +66,6 @@ This command will create 10 pods:
 ---
 ## Install WordPress chart and use Rook volume & bucket to store files
 
-### Manually load the RBD module in all remote nodes
-
-Run the following command in each VM:
-
-```
-sudo modprobe rbd
-```
-
----
 ### Create Storage Class
 
 Deploy storage class:
