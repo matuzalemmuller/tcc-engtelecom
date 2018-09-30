@@ -23,7 +23,7 @@ This documentation presents step by step instructions on how to run a WordPress 
 ---
 ### Set up remote infrastructure
 
-See [this documentation](https://gitlab.com/matuzalemmuller/tcc-engtelecom/tree/rook-helm/gcp/remote-setup) for instructions on how to set up the remote infrastructure and environment.
+See [this documentation](https://gitlab.com/matuzalemmuller/tcc-engtelecom/tree/rook-helm/remote-setup) for instructions on how to set up the remote infrastructure and environment.
 
 ---
 ## Install Rook
