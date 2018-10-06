@@ -87,7 +87,7 @@ kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"sto
 
 Install controller so http requests are forwarded to WordPress pod:
 ```
-helm install stable/nginx-ingress --name my-nginx --set rbac.create=true
+helm install stable/nginx-ingress --name nginx --set rbac.create=true
 ```
 
 ---
