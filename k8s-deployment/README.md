@@ -83,6 +83,14 @@ kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"sto
 ```
 
 ---
+### Install NGINX Controller
+
+Install controller so http requests are forwarded to WordPress pod:
+```
+helm install stable/nginx-ingress --name my-nginx --set rbac.create=true
+```
+
+---
 ### Install MySQL chart
 
 Run MySQL database which will be used by WordPress using Helm:
@@ -96,12 +104,6 @@ helm install stable/mysql --name mysql --version v0.10.1 -f mysql-values.yaml
 
 ---
 ### Install WordPress chart
-
-Modify the file `wordpress-values.yaml` to add the IP address of the pod on which the database is running:
-
-```
-(line 71)  host: ____________________
-```
 
 Install WordPress chart using Helm:
 ```
