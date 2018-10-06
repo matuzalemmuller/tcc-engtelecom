@@ -128,9 +128,9 @@ mariadb:
 ## Kubernetes configuration
 ## For minikube, set this to NodePort, elsewhere use LoadBalancer or ClusterIP
 ##
-#serviceType: ClusterIP
+serviceType: ClusterIP
 ##
-serviceType: NodePort
+# serviceType: NodePort
 ## nodePorts:
 ##   http: <to set explicitly, choose port between 30000-32767>
 ##   https: <to set explicitly, choose port between 30000-32767>
@@ -237,8 +237,8 @@ persistence:
 ##
 resources:
   requests:
-    memory: 512Mi
-    cpu: 300m
+    memory: 1.5Gi
+    cpu: 400m
 
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
