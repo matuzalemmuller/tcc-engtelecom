@@ -16,33 +16,33 @@ image:
 ## User of the application
 ## ref: https://github.com/bitnami/bitnami-docker-wordpress#environment-variables
 ##
-wordpressUsername: user
+wordpressUsername: matuzalemmuller
 
 ## Application password
 ## Defaults to a random 10-character alphanumeric string if not set
 ## ref: https://github.com/bitnami/bitnami-docker-wordpress#environment-variables
 ##
-# wordpressPassword:
+wordpressPassword: "test_password"
 
 ## Admin email
 ## ref: https://github.com/bitnami/bitnami-docker-wordpress#environment-variables
 ##
-wordpressEmail: user@example.com
+wordpressEmail: matuzalem.m@aluno.ifsc.edu.br
 
 ## First name
 ## ref: https://github.com/bitnami/bitnami-docker-wordpress#environment-variables
 ##
-wordpressFirstName: FirstName
+wordpressFirstName: Matuzalem
 
 ## Last name
 ## ref: https://github.com/bitnami/bitnami-docker-wordpress#environment-variables
 ##
-wordpressLastName: LastName
+wordpressLastName: Muller
 
 ## Blog name
 ## ref: https://github.com/bitnami/bitnami-docker-wordpress#environment-variables
 ##
-wordpressBlogName: User's Blog!
+wordpressBlogName: Undergraduate Thesis - Matuzalem
 
 ## Table prefix
 ## ref: https://github.com/bitnami/bitnami-docker-wordpress#environment-variables
@@ -51,7 +51,7 @@ wordpressTablePrefix: wp_
 
 ## Set to `yes` to allow the container to be started with blank passwords
 ## ref: https://github.com/bitnami/bitnami-docker-wordpress#environment-variables
-allowEmptyPassword: "yes"
+allowEmptyPassword: "no"
 
 ## SMTP mail delivery configuration
 ## ref: https://github.com/bitnami/bitnami-docker-wordpress/#smtp-configuration
@@ -68,7 +68,7 @@ replicaCount: 1
 externalDatabase:
 ## All of these values are only used when mariadb.enabled is set to false
   ## Database host
-  host: 10.42.1.8
+  host: mysql.default.svc.cluster.local
 
   ## non-root Username for Wordpress Database
   user: database_user
@@ -121,7 +121,7 @@ mariadb:
       ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
       ##   GKE, AWS & OpenStack)
       ##
-      # storageClass: "-"
+      storageClass: "rook-ceph-block"
       accessMode: ReadWriteOnce
       size: 8Gi
 
@@ -172,11 +172,11 @@ ingress:
   ## Most likely this will be just one host, but in the event more hosts are needed, this is an array
   ## Please make sure to change the name and tlsSecret to your own settings
   hosts:
-  - name: wordpress.local
+  - name: www.wordpress.teia.cc
 
     ## Set this to true in order to enable TLS on the ingress record
     ## A side effect of this will be that the backend wordpress service will be connected at port 443
-    tls: true
+    tls: false
 
     ## If TLS is set to true, you must declare what secret will store the key/certificate for TLS
     tlsSecret: wordpress.local-tls
