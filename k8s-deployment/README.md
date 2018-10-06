@@ -66,29 +66,50 @@ This command will create 10 pods:
 ---
 ## Install WordPress chart and use Rook volume & bucket to store files
 
+### Install NGINX Controller
+
+Install controller so http requests are forwarded to WordPress pod and Rook Object Store:
+```
+helm install stable/nginx-ingress --name nginx --set rbac.create=true
+```
+
+---
 ### Create Storage Class
 
 Deploy storage class:
-
 ```
 kubectl create -f storage-class.yaml
 ````
 
-### Set default Storage Class
+---
+### Generate certificate for remote VMs
 
-Set Storage Class created in previous step to default.
+* Point your domain to both worker VM IPs
+* Generate a certificate using Let's Encrypt: https://certbot.eff.org/lets-encrypt/debianstretch-other
+* Combine both `cert.pem` and `privkey.pem` in one file and encode output to `base64`. Insert the encoded output to the `cert` field of the `secrets.yaml` file
+* Encode `privkey.pem` and `cert.pem` and add both to `secrets.yaml` file in the `tls.key` and `tls.crt` parameters, respectively
 
+---
+### Create secrets
+
+Create secrets:
 ```
-kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+kubectl create -f secrets
 ```
 
 ---
-### Install NGINX Controller
+### Deploy Rook Object Store
 
-Install controller so http requests are forwarded to WordPress pod:
+Create the Object Store:
 ```
-helm install stable/nginx-ingress --name nginx --set rbac.create=true
+kubectl create if object-store.yaml
 ```
+
+---
+### Create bucket using radosgw
+
+Pending: create bucket + make it public using ingress
+
 
 ---
 ### Install MySQL chart
