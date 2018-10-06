@@ -64,7 +64,7 @@ resource "google_compute_firewall" "firewall-0" {
   // https://docs.openshift.com/container-platform/3.6/dev_guide/expose_service/expose_internal_ip_nodeport.html
   allow {
     protocol = "tcp"
-    ports    = ["22", "53", "80", "443", "2380", "2379", "3306", "6443", "6790", "6800-7300", "8124", "9283", "10250", "30000-32767", "44134"]
+    ports    = ["22", "53", "80", "443", "2380", "2379", "3306", "6443", "6790", "6800-7300", "8124", "9283", "10250", "10254", "30000-32767", "44134"]
   }
   // https://github.com/coreos/flannel/blob/master/Documentation/backends.md#vxlan
   allow {
