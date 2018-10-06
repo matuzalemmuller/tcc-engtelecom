@@ -67,9 +67,9 @@ mariadb:
 serviceType: ClusterIP
 # serviceType: NodePort
 ## nodePorts:
-nodePorts:
-  http: "30000"
-  https: "30001"
+# nodePorts:
+#  http: "30000"
+#  https: "30001"
 
 ## Enable client source IP preservation
 serviceExternalTrafficPolicy: Local
