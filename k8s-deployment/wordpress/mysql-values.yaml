@@ -3,31 +3,19 @@
 ##
 image: "mysql"
 imageTag: "5.7.14"
+imagePullPolicy: IfNotPresent
 
 ## Specify password for root user
-##
 ## Default: random 10 character string
 mysqlRootPassword: root_password
 
 ## Create a database user
-##
 mysqlUser: database_user
 ## Default: random 10 character string
 mysqlPassword: database_password
 
-## Allow unauthenticated access, uncomment to enable
-##
-# mysqlAllowEmptyPassword: true
-
 ## Create a database
-##
 mysqlDatabase: wordpress_db
-
-## Specify an imagePullPolicy (Required)
-## It's recommended to change this to 'Always' if the image tag is 'latest'
-## ref: http://kubernetes.io/docs/user-guide/images/#updating-images
-##
-imagePullPolicy: IfNotPresent
 
 extraVolumes: |
   # - name: extras
@@ -40,11 +28,6 @@ extraInitContainers: |
   # - name: do-something
   #   image: busybox
   #   command: ['do', 'something']
-# Optionally specify an array of imagePullSecrets.
-# Secrets must be manually created in the namespace.
-# ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
-# imagePullSecrets:
-  # - name: myRegistryKeySecretName
 
 ## Node selector
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
@@ -68,21 +51,12 @@ readinessProbe:
 ## Persist data to a persistent volume
 persistence:
   enabled: true
-  ## database data Persistent Volume Storage Class
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is
-  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-  ##   GKE, AWS & OpenStack)
-  ##
   storageClass: "rook-ceph-block"
   accessMode: ReadWriteOnce
   size: 5Gi
   annotations: {}
 
 ## Configure resource requests and limits
-## ref: http://kubernetes.io/docs/user-guide/compute-resources/
-##
 resources:
   requests:
     memory: 256Mi
@@ -99,10 +73,6 @@ configurationFiles: {}
 
 # Custom mysql init SQL files used to initialize the database
 initializationFiles: {}
-#  first-db.sql: |-
-#    CREATE DATABASE IF NOT EXISTS first DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
-#  second-db.sql: |-
-#    CREATE DATABASE IF NOT EXISTS second DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
 
 metrics:
   enabled: false
@@ -111,8 +81,6 @@ metrics:
   imagePullPolicy: IfNotPresent
   resources: {}
   annotations: {}
-    # prometheus.io/scrape: "true"
-    # prometheus.io/port: "9104"
   livenessProbe:
     initialDelaySeconds: 15
     timeoutSeconds: 5
@@ -123,11 +91,8 @@ metrics:
 ## Configure the service
 ## ref: http://kubernetes.io/docs/user-guide/services/
 service:
-  ## Specify a service type
-  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services---service-types
   type: ClusterIP
   port: 3306
-  # nodePort: 32000
 
 ssl:
   enabled: false
@@ -146,13 +111,6 @@ ssl:
 #      -----BEGIN RSA PRIVATE KEY-----
 #      ...
 #      -----END RSA PRIVATE KEY-----
-
-## Populates the 'TZ' system timezone environment variable
-## ref: https://dev.mysql.com/doc/refman/5.7/en/time-zone-support.html
-##
-## Default: nil (mysql will use image's default timezone, normally UTC)
-## Example: 'Australia/Sydney'
-# timezone:
 
 # To be added to the database server pod(s)
 podAnnotations: {}
