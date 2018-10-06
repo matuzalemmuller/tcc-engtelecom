@@ -7,7 +7,7 @@ imageTag: "5.7.14"
 ## Specify password for root user
 ##
 ## Default: random 10 character string
-# mysqlRootPassword: testing
+mysqlRootPassword: root_password
 
 ## Create a database user
 ##
@@ -48,7 +48,8 @@ extraInitContainers: |
 
 ## Node selector
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
-nodeSelector: {}
+nodeSelector:
+  node: worker
 
 livenessProbe:
   initialDelaySeconds: 30
