@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: rgw-object-store
+  namespace: rook-ceph
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+  - secretName: tls-secret
+  rules:
+  - host: www.wordpress.teia.cc
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: rook-ceph-rgw-my-store
+          servicePort: 80
