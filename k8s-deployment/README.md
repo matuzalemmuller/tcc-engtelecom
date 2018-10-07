@@ -165,6 +165,7 @@ Save some data to later add to the bucket. For example, a picture:
 ```
 curl -o image.jpg https://cdn.pixabay.com/photo/2017/02/19/16/01/mountaineer-2080138_960_720.jpg
 ```
+* This image has no copyright and has been retrieved from [this page](https://pixabay.com/en/mountaineer-forward-blizzard-stormy-2080138/)
 
 "Put" the data in the bucket created and change its permissions to public access:
 ```
