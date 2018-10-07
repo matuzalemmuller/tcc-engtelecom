@@ -13,11 +13,16 @@ This documentation presents step by step instructions on how to run a WordPress 
  * [Set up remote infrastructure](#set-up-remote-infrastructure)
  * [Install Rook Operator chart using Helm](#install-rook-operator-chart-using-helm)
  * [Create Rook cluster](#create-rook-cluster)
- * [Create Storage Class](#create-storage-class)
- * [Set default Storage Class](#set-default-storage-class)
+ * [Install NGINX Controller](#install-nginx-controller)
+ * [Create Rook Storage Class](#create-rook-storage-class)
+ * [Generate certificate for remote VMs](#generate-certificate-for-remote-vms)
+ * [Create secrets for Rook Object Store](#create-secrets-for-rook-object-store)
+ * [Create Rook Object Store](#create-rook-object-store)
+ * [Run Rook Toolbox](#run-rook-toolbox)
+ * [Create S3 bucket using radosgw](#create-s3-bucket-using-radosgw)
+ * [Create Ingress record for S3 bucket](#create-ingress-record-for-s3-bucket)
  * [Install MySQL chart](#install-mysql-chart)
  * [Install WordPress chart](#install-wordpress-chart)
- * [Run Rook toolbox](#run-rook-toolbox)
  * [Common issues](#common-issues)
 <!--te-->
 
@@ -64,7 +69,7 @@ This command will create 10 pods:
 * 1 rook manager, which will be running in the master node
 
 ---
-## Install WordPress chart and use Rook volume & bucket to store files
+## Install WordPress chart and create Rook volume & bucket to store files
 
 ### Install NGINX Controller
 
@@ -74,9 +79,9 @@ helm install stable/nginx-ingress --name nginx --set rbac.create=true
 ```
 
 ---
-### Create Storage Class
+### Create Rook Storage Class
 
-Deploy storage class:
+Deploy root storage class. Volumes will now be created using rook:
 ```
 kubectl create -f storage-class.yaml
 ````
@@ -86,30 +91,96 @@ kubectl create -f storage-class.yaml
 
 * Point your domain to both worker VM IPs
 * Generate a certificate using Let's Encrypt: https://certbot.eff.org/lets-encrypt/debianstretch-other
-* Combine both `cert.pem` and `privkey.pem` in one file and encode output to `base64`. Insert the encoded output to the `cert` field of the `secrets.yaml` file
+* Combine both `cert.pem` and `privkey.pem` in one file and encode output to `base64`. Insert the encoded output to the `cert` parameter of the `secrets.yaml` file
+```
+cat file.txt | base64
+```
 * Encode `privkey.pem` and `cert.pem` and add both to `secrets.yaml` file in the `tls.key` and `tls.crt` parameters, respectively
 
 ---
-### Create secrets
+### Create secrets for Rook Object Store
 
-Create secrets:
+Create TLS secrets for Rook Object Store and Ingress resource for Object Store:
 ```
-kubectl create -f secrets
-```
-
----
-### Deploy Rook Object Store
-
-Create the Object Store:
-```
-kubectl create if object-store.yaml
+kubectl create -f secrets.yaml
 ```
 
 ---
-### Create bucket using radosgw
+### Create Rook Object Store
+
+Create the Object Store, which will expose a S3 API to store and manage data:
+```
+kubectl create -f object-store.yaml
+```
+
+* For more information about Rook Object Store, see https://rook.io/docs/rook/master/object.html
+* A new pod will be created in namespace `rook-ceph`. Wait for its status to change to Running before proceeding to next step
+
+---
+### Run Rook Toolbox
+
+Rook toolbox allows to connect to the cluster via CLI and analyze the underlying Ceph system running cluster, which helps troubleshooting issues. It will also allow to launch a S3 client to create buckets and manage data in the Rook Object Store.
+
+```
+kubectl create -f toolbox.yaml
+```
+
+---
+### Create S3 bucket using radosgw
 
 Pending: create bucket + make it public using ingress
 
+Access the rook toolbox pod and install the s3cmd client to manage data in the Rook Object Store:
+```
+kubectl -n rook-ceph exec -it rook-tools-XXX bash
+yum --assumeyes install s3cmd
+```
+
+Create rgw user to be able to manage data in the Object Store:
+```
+radosgw-admin user create --uid rook-user --display-name "A rook rgw User" --rgw-realm=my-store --rgw-zonegroup=my-store
+```
+* Save the following output from the `radosgw-admin` command:
+```
+{
+    "user": "rook-user",
+    "access_key": "XXXXXXXXXXXXXXXXXXXX",
+    "secret_key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+}
+```
+
+Export the following variables to use them when managing data with s3cmd (the values of `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are variables from the previous step):
+```
+export AWS_HOST=rook-ceph-rgw-my-store.rook-ceph
+export AWS_ENDPOINT=rook-ceph-rgw-my-store.rook-ceph.svc.cluster.local
+export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX
+export AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+Create a S3 bucket using s3cmd:
+```
+s3cmd mb --no-check-certificate  --host=${AWS_HOST} --host-bucket= s3://rookbucket
+```
+
+Save some data to the bucket, for example, and image:
+```
+curl -o image.jpg https://cdn.pixabay.com/photo/2017/02/19/16/01/mountaineer-2080138_960_720.jpg
+```
+
+"Put" the data in the bucket created and change its permissions to public access:
+```
+s3cmd put image.jpg --no-check-certificate --host=${AWS_HOST} --host-bucket=  s3://rookbucket
+s3cmd setacl s3://rookbucket/image.jpg --acl-public --no-check-certificate --host=${AWS_HOST} --host-bucket=s3://rookbucket
+```
+
+---
+### Create Ingress record for S3 bucket
+
+Create Ingress record for S3 bucket created:
+```
+kubectl create -f object-ingress.yaml
+```
+* You will now be able to access your image from outside the cluster over HTTPS by accessing the URL www.domain.com/rookbucket/image.jpg (where www.domain.com is the domain that was previously used to create the certificate and is pointing to the remote worker nodes - VMs).
 
 ---
 ### Install MySQL chart
@@ -134,26 +205,7 @@ helm install stable/wordpress --name wordpress --version v2.1.10 -f wordpress-va
 * This will install WordPress and create volumes based in the storage class `rook-ceph-block`
 * More configurable parameters can be checked at https://github.com/helm/charts/tree/master/stable/wordpress
 
----
-### Run Rook Toolbox
 
-Rook toolbox allows to connect to the cluster via CLI and analyze the underlying Ceph system running cluster, which helps troubleshooting issues.
-
-```
-kubectl create -f toolbox.yaml
-```
-
-Wait for the toolbox to change the status to running:
-```
-kubectl -n rook-ceph get pod rook-tools
-```
-
-Access the rook toolbox pod:
-```
-kubectl -n rook-ceph exec -it rook-tools-XXX bash
-```
-
-Note: this pod can and will be assigned to any node automatically.
 
 ---
 # Common issues
