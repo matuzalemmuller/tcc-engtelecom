@@ -13,7 +13,7 @@ spec:
   - host: www.wordpress.teia.cc
     http:
       paths:
-      - path: /
+      - path: /rook
         backend:
           serviceName: rook-ceph-rgw-my-store
           servicePort: 80
