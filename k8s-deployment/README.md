@@ -81,7 +81,7 @@ helm install stable/nginx-ingress --name nginx --set rbac.create=true
 ---
 ### Create Rook Storage Class
 
-Deploy root storage class. Volumes will now be created using rook:
+Deploy Rook Storage Class. Volumes will now be created using rook:
 ```
 kubectl create -f storage-class.yaml
 ````
@@ -95,7 +95,7 @@ kubectl create -f storage-class.yaml
 ```
 cat file.txt | base64
 ```
-* Encode `privkey.pem` and `cert.pem` and add both to `secrets.yaml` file in the `tls.key` and `tls.crt` parameters, respectively
+* Encode `privkey.pem` and `cert.pem` to base64 and add both to `secrets.yaml` file in the `tls.key` and `tls.crt` parameters, respectively
 
 ---
 ### Create secrets for Rook Object Store
@@ -114,7 +114,7 @@ kubectl create -f object-store.yaml
 ```
 
 * For more information about Rook Object Store, see https://rook.io/docs/rook/master/object.html
-* A new pod will be created in namespace `rook-ceph`. Wait for its status to change to Running before proceeding to next step
+* A new pod will be created in namespace `rook-ceph`. Wait for its status to change to Running before proceeding to the next step
 
 ---
 ### Run Rook Toolbox
@@ -128,15 +128,13 @@ kubectl create -f toolbox.yaml
 ---
 ### Create S3 bucket using radosgw
 
-Pending: create bucket + make it public using ingress
-
 Access the rook toolbox pod and install the s3cmd client to manage data in the Rook Object Store:
 ```
 kubectl -n rook-ceph exec -it rook-tools-XXX bash
 yum --assumeyes install s3cmd
 ```
 
-Create rgw user to be able to manage data in the Object Store:
+Create rgw user to be able to manage data in the Object Store (still in the toolbox pod):
 ```
 radosgw-admin user create --uid rook-user --display-name "A rook rgw User" --rgw-realm=my-store --rgw-zonegroup=my-store
 ```
@@ -149,7 +147,7 @@ radosgw-admin user create --uid rook-user --display-name "A rook rgw User" --rgw
 }
 ```
 
-Export the following variables to use them when managing data with s3cmd (the values of `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are variables from the previous step):
+In the toolbox shell, export the following variables to use them when managing data with s3cmd (the values of `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are variables from the previous step):
 ```
 export AWS_HOST=rook-ceph-rgw-my-store.rook-ceph
 export AWS_ENDPOINT=rook-ceph-rgw-my-store.rook-ceph.svc.cluster.local
@@ -159,10 +157,10 @@ export AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 Create a S3 bucket using s3cmd:
 ```
-s3cmd mb --no-check-certificate  --host=${AWS_HOST} --host-bucket= s3://rookbucket
+s3cmd mb --no-check-certificate --host=${AWS_HOST} --host-bucket=s3://rookbucket
 ```
 
-Save some data to the bucket, for example, and image:
+Save some data to later add the bucket. For example, an image:
 ```
 curl -o image.jpg https://cdn.pixabay.com/photo/2017/02/19/16/01/mountaineer-2080138_960_720.jpg
 ```
@@ -173,10 +171,23 @@ s3cmd put image.jpg --no-check-certificate --host=${AWS_HOST} --host-bucket=  s3
 s3cmd setacl s3://rookbucket/image.jpg --acl-public --no-check-certificate --host=${AWS_HOST} --host-bucket=s3://rookbucket
 ```
 
+The following command can be used to list the objects stored in the bucket:
+```
+s3cmd ls s3://rookbucket -no-check-certificate --host=${AWS_HOST} --host-bucket=s3://rookbucket
+```
+
+More s3cmd commands are available at https://s3tools.org/usage
+
 ---
 ### Create Ingress record for S3 bucket
 
-Create Ingress record for S3 bucket created:
+Add the domain that was previously used to create the certificate and is pointing to the remote worker nodes (VMs) to the `host` parameter of the `object-ingress.yaml` file:
+
+```
+(line 13) host: __________
+```
+
+Create Ingress record for S3 bucket:
 ```
 kubectl create -f object-ingress.yaml
 ```
@@ -204,8 +215,6 @@ helm install stable/wordpress --name wordpress --version v2.1.10 -f wordpress-va
 
 * This will install WordPress and create volumes based in the storage class `rook-ceph-block`
 * More configurable parameters can be checked at https://github.com/helm/charts/tree/master/stable/wordpress
-
-
 
 ---
 # Common issues
