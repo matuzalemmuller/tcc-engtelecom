@@ -204,6 +204,16 @@ helm install stable/mysql --name mysql --version v0.10.1 -f mysql-values.yaml
 * More configurable parameters can be checked at https://github.com/helm/charts/tree/master/stable/mysql
 
 ---
+### Create TLS secrets for WordPress
+
+Encode the `privkey.pem` and `cert.pem` files generated from the certificate to base64 and add both to `wordpress-secrets.yaml` file in the `tls.key` and `tls.crt` parameters, respectively.
+
+Create TLS secrets so it's possible to connect to WordPress securely:
+```
+kubectl create -f wordpress-secrets.yaml
+```
+
+---
 ### Install WordPress chart
 
 Install WordPress chart using Helm:
