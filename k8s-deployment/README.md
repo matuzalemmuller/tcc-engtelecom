@@ -91,7 +91,7 @@ kubectl create -f storage-class.yaml
 
 * Point your domain to both worker VM IPs
 * Generate a certificate using Let's Encrypt: https://certbot.eff.org/lets-encrypt/debianstretch-other
-* Combine both `cert.pem` and `privkey.pem` in one file and encode output to `base64`. Insert the encoded output to the `cert` parameter of the `secrets.yaml` file
+* Combine both `cert.pem` and `privkey.pem` in one file and encode output to base64. Insert the encoded output to the `cert` parameter of the `secrets.yaml` file
 ```
 cat file.txt | base64
 ```
@@ -160,7 +160,7 @@ Create a S3 bucket using s3cmd:
 s3cmd mb --no-check-certificate --host=${AWS_HOST} --host-bucket=s3://rookbucket
 ```
 
-Save some data to later add the bucket. For example, an image:
+Save some data to later add to the bucket. For example, a picture:
 ```
 curl -o image.jpg https://cdn.pixabay.com/photo/2017/02/19/16/01/mountaineer-2080138_960_720.jpg
 ```
@@ -182,7 +182,6 @@ More s3cmd commands are available at https://s3tools.org/usage
 ### Create Ingress record for S3 bucket
 
 Add the domain that was previously used to create the certificate and is pointing to the remote worker nodes (VMs) to the `host` parameter of the `object-ingress.yaml` file:
-
 ```
 (line 13) host: __________
 ```
@@ -196,8 +195,7 @@ kubectl create -f object-ingress.yaml
 ---
 ### Install MySQL chart
 
-Run MySQL database which will be used by WordPress using Helm:
-
+Run MySQL database which will be used by WordPress:
 ```
 helm install stable/mysql --name mysql --version v0.10.1 -f mysql-values.yaml
 ```
@@ -219,7 +217,7 @@ helm install stable/wordpress --name wordpress --version v2.1.10 -f wordpress-va
 ---
 # Common issues
 
-* Can't install cart because there's already a chart with that name installed even though it was removed: remove chart again using `--purge` flag
+* Can't install chart because there's already a chart with that name installed even though it was removed: remove chart again using `--purge` flag
 * `rook-ceph` namespace stuck in terminating status: https://github.com/rook/rook/issues/1488#issuecomment-397241621
   ```
   kubectl -n rook-ceph patch clusters.ceph.rook.io rook-ceph -p '{"metadata":{"finalizers": []}}' --type=merge
