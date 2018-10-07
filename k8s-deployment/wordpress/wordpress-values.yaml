@@ -143,7 +143,7 @@ persistence:
 ## Configure resource requests and limits
 resources:
   requests:
-    memory: 2.0Gi
+    memory: 3.0Gi
     cpu: 500m
 
 ## Node labels for pod assignment
