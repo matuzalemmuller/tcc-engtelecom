@@ -13,4 +13,4 @@ fi
 rm -rf /var/lib/rook/*
 
 # Enable rdb module for ceph
-echo "rbd" >> /etc/modules
+echo "rbd" > /etc/modules
