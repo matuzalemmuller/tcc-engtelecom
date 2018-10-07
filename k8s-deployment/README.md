@@ -100,7 +100,7 @@ cat file.txt | base64
 ---
 ### Create secrets for Rook Object Store
 
-Create TLS secrets for Rook Object Store and Ingress resource for Object Store:
+Create TLS secrets for Rook Object Store and Object Store Ingress resource. This will allow secure connections to be established with the Object Store:
 ```
 kubectl create -f secrets.yaml
 ```
