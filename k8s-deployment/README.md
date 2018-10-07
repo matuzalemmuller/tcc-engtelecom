@@ -190,7 +190,7 @@ Create Ingress record for S3 bucket:
 ```
 kubectl create -f object-ingress.yaml
 ```
-* You will now be able to access your image from outside the cluster over HTTPS by accessing the URL www.domain.com/rookbucket/image.jpg (where www.domain.com is the domain that was previously used to create the certificate and is pointing to the remote worker nodes - VMs).
+* You will now be able to access your image from outside the cluster over HTTPS by accessing the URL www.domain.com/rook/rookbucket/image.jpg (where www.domain.com is the domain that was previously used to create the certificate and is pointing to the remote worker nodes - VMs).
 
 ---
 ### Install MySQL chart
@@ -215,6 +215,11 @@ kubectl create -f wordpress-secrets.yaml
 
 ---
 ### Install WordPress chart
+
+Change the `host` parameter in the `wordpress-values.yaml` file to include the domain that is pointing to the remote nodes:
+```
+(line 100) host: _______________
+```
 
 Install WordPress chart using Helm:
 ```
