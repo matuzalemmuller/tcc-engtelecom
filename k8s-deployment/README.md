@@ -129,7 +129,7 @@ kubectl create -f toolbox.yaml
 ---
 ### Create S3 bucket using radosgw
 
-Access the rook toolbox pod and install the s3cmd client to manage data in the Rook Object Store:
+Access the rook toolbox pod and install the s3cmd client to manage data in the Rook Object Store (you can also simply deploy a `s3cmd` container such as [this one](https://hub.docker.com/r/garland/docker-s3cmd/)):
 ```
 kubectl -n rook-ceph exec -it rook-tools-XXX bash
 yum --assumeyes install s3cmd
@@ -158,7 +158,7 @@ export AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 Create a S3 bucket using s3cmd:
 ```
-s3cmd mb --no-check-certificate --host=${AWS_HOST} --host-bucket= s3://rookbucket
+s3cmd mb --no-ssl --host=${AWS_HOST} --host-bucket= s3://rookbucket
 ```
 
 Save some data to later add to the bucket. For example, a picture:
@@ -168,16 +168,17 @@ curl -o image.jpg https://cdn.pixabay.com/photo/2017/02/19/16/01/mountaineer-208
 
 "Put" the data in the bucket created and change its permissions to public access:
 ```
-s3cmd put image.jpg --no-check-certificate --host=${AWS_HOST} --host-bucket=  s3://rookbucket
-s3cmd setacl s3://rookbucket/image.jpg --acl-public --no-check-certificate --host=${AWS_HOST} --host-bucket=s3://rookbucket
+s3cmd put image.jpg --no-ssl --host=${AWS_HOST} --host-bucket=  s3://rookbucket
+s3cmd setacl s3://rookbucket/image.jpg --acl-public --no-ssl --host=${AWS_HOST} --host-bucket=s3://rookbucket
 ```
 
 The following command can be used to list the objects stored in the bucket:
 ```
-s3cmd ls s3://rookbucket --no-check-certificate --host=${AWS_HOST} --host-bucket=s3://rookbucket
+s3cmd ls s3://rookbucket --no-ssl --host=${AWS_HOST} --host-bucket=s3://rookbucket
 ```
 
-More s3cmd commands are available at https://s3tools.org/usage
+* More s3cmd commands are available at https://s3tools.org/usage
+* The flag `--no-ssl` is being used as this communication is internal to the cluster
 
 ---
 ### Create Ingress record for S3 bucket
