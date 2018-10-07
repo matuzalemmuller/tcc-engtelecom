@@ -21,6 +21,7 @@ This documentation presents step by step instructions on how to run a WordPress 
  * [Run Rook Toolbox](#run-rook-toolbox)
  * [Create S3 bucket using radosgw](#create-s3-bucket-using-radosgw)
  * [Create Ingress record for S3 bucket](#create-ingress-record-for-s3-bucket)
+ * [Create TLS secrets for WordPress](#create-tls-secrets-for-wordpress)
  * [Install MySQL chart](#install-mysql-chart)
  * [Install WordPress chart](#install-wordpress-chart)
  * [Common issues](#common-issues)
