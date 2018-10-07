@@ -218,7 +218,7 @@ kubectl create -f wordpress-secrets.yaml
 
 Change the `host` parameter in the `wordpress-values.yaml` file to include the domain that is pointing to the remote nodes:
 ```
-(line 100) host: _______________
+(line 100) - name: _______________
 ```
 
 Install WordPress chart using Helm:
