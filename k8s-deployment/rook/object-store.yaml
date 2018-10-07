@@ -15,8 +15,8 @@ spec:
       codingChunks: 1
   gateway:
     type: s3
-    sslCertificateRef: tls-secret
+    sslCertificateRef:
     port: 80
-    securePort: 443
+    securePort:
     instances: 1
     allNodes: false
