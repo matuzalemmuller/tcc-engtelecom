@@ -1,5 +1,3 @@
 .DS_Store
 *tfstate*
 .terraform
-rados-user.txt
-object_store_credentials.txt
