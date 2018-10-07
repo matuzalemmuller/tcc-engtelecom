@@ -157,7 +157,7 @@ export AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 Create a S3 bucket using s3cmd:
 ```
-s3cmd mb --no-check-certificate --host=${AWS_HOST} --host-bucket=s3://rookbucket
+s3cmd mb --no-check-certificate --host=${AWS_HOST} --host-bucket= s3://rookbucket
 ```
 
 Save some data to later add to the bucket. For example, a picture:
@@ -173,7 +173,7 @@ s3cmd setacl s3://rookbucket/image.jpg --acl-public --no-check-certificate --hos
 
 The following command can be used to list the objects stored in the bucket:
 ```
-s3cmd ls s3://rookbucket -no-check-certificate --host=${AWS_HOST} --host-bucket=s3://rookbucket
+s3cmd ls s3://rookbucket --no-check-certificate --host=${AWS_HOST} --host-bucket=s3://rookbucket
 ```
 
 More s3cmd commands are available at https://s3tools.org/usage
