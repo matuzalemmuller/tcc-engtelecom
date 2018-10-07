@@ -19,4 +19,5 @@ parameters:
   # Specify the filesystem type of the volume. If not specified, it will use `ext4`.
   fstype: xfs
 # Optional, default reclaimPolicy is "Delete". Other options are: "Retain", "Recycle" as documented in https://kubernetes.io/docs/concepts/storage/storage-classes/
+# NOT IMPLEMENTED YET - https://github.com/rook/rook/issues/1259
 reclaimPolicy: Retain
