@@ -1,4 +1,4 @@
 .DS_Store
 *tfstate*
 .terraform
-rados-user.txt
+*temp*

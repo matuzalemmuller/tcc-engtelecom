@@ -1,0 +1,116 @@
+## mysql image version
+## ref: https://hub.docker.com/r/library/mysql/tags/
+##
+image: "mysql"
+imageTag: "5.7.14"
+imagePullPolicy: IfNotPresent
+
+## Specify password for root user
+## Default: random 10 character string
+mysqlRootPassword: root_password
+
+## Create a database user
+mysqlUser: database_user
+## Default: random 10 character string
+mysqlPassword: database_password
+
+## Create a database
+mysqlDatabase: wordpress_db
+
+extraVolumes: |
+  # - name: extras
+  #   emptyDir: {}
+extraVolumeMounts: |
+  # - name: extras
+  #   mountPath: /usr/share/extras
+  #   readOnly: true
+extraInitContainers: |
+  # - name: do-something
+  #   image: busybox
+  #   command: ['do', 'something']
+
+## Node selector
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+nodeSelector:
+  node: worker
+
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+
+## Persist data to a persistent volume
+persistence:
+  enabled: true
+  storageClass: "rook-ceph-block"
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  annotations: {}
+
+## Configure resource requests and limits
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+
+# Custom mysql configuration files used to override default mysql settings
+configurationFiles: {}
+#  mysql.cnf: |-
+#    [mysqld]
+#    skip-name-resolve
+#    ssl-ca=/ssl/ca.pem
+#    ssl-cert=/ssl/server-cert.pem
+#    ssl-key=/ssl/server-key.pem
+
+# Custom mysql init SQL files used to initialize the database
+initializationFiles: {}
+
+metrics:
+  enabled: false
+  image: prom/mysqld-exporter
+  imageTag: v0.10.0
+  imagePullPolicy: IfNotPresent
+  resources: {}
+  annotations: {}
+  livenessProbe:
+    initialDelaySeconds: 15
+    timeoutSeconds: 5
+  readinessProbe:
+    initialDelaySeconds: 5
+    timeoutSeconds: 1
+
+## Configure the service
+## ref: http://kubernetes.io/docs/user-guide/services/
+service:
+  type: ClusterIP
+  port: 3306
+
+ssl:
+  enabled: false
+  secret: mysql-ssl-certs
+  certificates:
+#  - name: mysql-ssl-certs
+#    ca: |-
+#      -----BEGIN CERTIFICATE-----
+#      ...
+#      -----END CERTIFICATE-----
+#    cert: |-
+#      -----BEGIN CERTIFICATE-----
+#      ...
+#      -----END CERTIFICATE-----
+#    key: |-
+#      -----BEGIN RSA PRIVATE KEY-----
+#      ...
+#      -----END RSA PRIVATE KEY-----
+
+# To be added to the database server pod(s)
+podAnnotations: {}

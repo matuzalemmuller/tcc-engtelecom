@@ -1,0 +1,32 @@
+nodes:
+- address: 35.198.47.124
+  internal_address: 10.0.0.100
+  user: matuzalemmuller
+  role: [controlplane,worker,etcd]
+  ssh_key_path: keys/id_rsa
+  hostname_override: master
+  labels:
+    node: master
+- address: 35.198.60.116
+  internal_address: 10.0.0.101
+  user: matuzalemmuller
+  role: [worker,etcd]
+  hostname_override: worker1
+  ssh_key_path: keys/id_rsa
+  labels:
+    node_role: worker
+- address: 35.198.15.53
+  internal_address: 10.0.0.102
+  user: matuzalemmuller
+  role: [worker,etcd]
+  ssh_key_path: keys/id_rsa
+  hostname_override: worker2
+  labels:
+    node_role: worker
+
+  kubelet:
+    extra_args:
+      feature-gates: MountPropagation=true
+      volume-plugin-dir: /var/lib/kubelet/volumeplugins
+    extra_binds:
+    - "/var/lib/rook:/var/lib/rook:rshared"

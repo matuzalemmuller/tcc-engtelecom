@@ -5,28 +5,21 @@ This documentation presents step by step instructions on how to set up a kuberne
   * Terraform v0.11.8
   * RKE v0.1.9
   * Docker v17.03.3
-  * Rook v0.8.2
   * kubectl v1.11.0
   * Kubernetes v.v1.11.1
 
-Table of contents
-=================
+### Table of contents
 <!--ts-->
-  * [Create a project in GCP](#create-a-project-in-gcp)
-  * [Setup Terraform in local device](#setup-terraform-in-local-device)
-  * [Download and install Google SDK](#download-and-install-google-sdk)
-  * [Modify terraform-infrastructure.tf file to include correct account information and credentials](#modify-terraform-infrastructuretf-file-to-include-correct-account-information-and-credentials)
-  * [Run Terraform and create the GCP infrastructure](#run-terraform-and-create-the-gcp-infrastructure)
-  * [Install docker in all VMs created](#install-docker-in-all-vms-created)
-  * [Install rke in local computer](#install-rke-in-local-computer)
-  * [Deploy remote k8s cluster](#deploy-remote-k8s-cluster)
-  * [Move k8s local file created by rancher to k8s local configuration folder](#deploy-remote-k8s-cluster)
-  * [Deploy rook operator](#deploy-rook-operator)
-  * [Create rook cluster](#create-rook-cluster)
-  * [Run rook toolbox](#run-rook-toolbox)
-  * [Create an Object Store and Consume Storage](#create-an-object-store-and-consume-storage)
-  * [(Optional) Install helm in remote k8s cluster](#optional-install-helm-in-remote-k8s-cluster)
-
+ * [Create a project in GCP](#create-a-project-in-gcp)</li>
+ * [Set up Terraform in local device](#set-up-terraform-in-local-device)</li>
+ * [Download and install Google SDK](#download-and-install-google-sdk)</li>
+ * [Modify terraform-infrastructure.tf file to include correct account information and credentials](#modify-terraform-infrastructuretf-file-to-include-correct-account-information-and-credentials)</li>
+ * [Run Terraform and create the GCP infrastructure](#run-terraform-and-create-the-gcp-infrastructure)</li>
+ * [Install docker in all VMs created](#install-docker-in-all-vms-created)</li>
+ * [Install rke in local computer](#install-rke-in-local-computer)</li>
+ * [Deploy remote k8s cluster](#deploy-remote-k8s-cluster)</li>
+ * [Move k8s local file created by rancher to k8s local configuration folder](#move-k8s-local-file-created-by-rancher-to-k8s-local-configuration-folder)</li>
+ * [Install Helm in remote k8s cluster](#install-helm-in-remote-k8s-cluster)</li>
 <!--te-->
 
 ---
@@ -35,7 +28,7 @@ Table of contents
 https://cloud.google.com/resource-manager/docs/creating-managing-projects
 
 ---
-### Setup Terraform in local device
+### Set up Terraform in local device
 
 Install Terraform in local device:
 ```
@@ -108,7 +101,7 @@ https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/
 
 Give permissions to the user created in the remote VMs to run docker:
 ```
-sudo usermod -aG docker <username>
+sudo usermod -aG docker $USER
 ```
 
 ---
@@ -139,65 +132,14 @@ export KUBECONFIG=$(pwd)/kube_config_cluster.yml
 ```
 
 ---
-### Deploy Rook Operator
-
-This will create the necessary agents, namespaces and other rules necessary to setup a Rook cluster.
-
-```
-cd ../rook-deployment
-kubectl crete -f operator.yaml
-```
-
-This command will create 7 pods:
-* 3 rook agents, which will be running in each node
-* 3 rook discovers, which will be running in each node
-* 1 rook operator, which will be running in the master node
-
----
-### Create Rook Cluster
-
-This will deploy a rook cluster with monitors (MON), OSDs and a manager (MGR). All the necessary requirements such as namespaces and roles will also be created. However, it will still be necessary to setup for what rook will be used (i.e. object store, filesystem, etc).
-
-```
-kubectl create -f cluster.yaml
-```
-
-This command will create 10 pods:
-* 3 monitors, which will be running in each node
-* 3 osd prepare, which will run and complete in each node
-* 3 osds, which will be running in each node
-* 1 rook manager, which will be running in the master node
-
----
-### Run Rook Toolbox
-
-Rook toolbox allows to connect to the cluster via CLI and analyze the underlying Ceph system running cluster, which helps troubleshooting issues.
-
-```
-kubectl create -f toolbox.yaml
-```
-
-Note: this pod can and will be assigned to any node automatically.
-
----
-### Create an Object Store and Consume Storage
-
-https://rook.github.io/docs/rook/master/object.html
-
----
-### (Optional) Install helm in remote k8s cluster
+### Install Helm in remote k8s cluster
 
 See https://github.com/helm/helm for instructions on how to install Helm in your local computer.
 
-After installing Helm, create the ServiceAccount and ClusterRobeBinding for the tiller service to manage charts.
+Since RBAC is enabled in the cluster it's necessary to create a ServiceAccount and ClusterRobeBinding for the tiller service to manage charts.
 ```
-kubectl -n kube-system create serviceaccount tiller
+kubectl --namespace kube-system create sa tiller
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-```
-
-Start Helm to be able to manage charts:
-```
 helm init
+kubectl --namespace kube-system patch deploy/tiller-deploy -p '{"spec": {"template": {"spec": {"serviceAccountName": "tiller"}}}}'
 ```
-
----

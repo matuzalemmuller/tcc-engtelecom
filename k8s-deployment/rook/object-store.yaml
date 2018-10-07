@@ -1,3 +1,5 @@
+# https://rook.github.io/docs/rook/master/object.html
+#
 apiVersion: ceph.rook.io/v1beta1
 kind: ObjectStore
 metadata:
