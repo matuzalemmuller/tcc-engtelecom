@@ -30,7 +30,7 @@ This documentation presents step by step instructions on how to run a WordPress 
 ---
 ### Set up remote infrastructure
 
-See [this documentation](https://gitlab.com/matuzalemmuller/tcc-engtelecom/tree/rook-helm/remote-setup) for instructions on how to set up the remote infrastructure and environment.
+See [this documentation](https://gitlab.com/matuzalemmuller/tcc-engtelecom/tree/rook-helm/remote-setup) for instructions on how to set up the remote infrastructure and local environment.
 
 ---
 ## Install Rook
@@ -52,6 +52,8 @@ Installing the operator will create 7 pods:
 * 3 rook discovers, which will be running in each node
 * 1 rook operator, which will be running in the master node
 
+![Rook Operator Pods](https://gitlab.com/matuzalemmuller/tcc-engtelecom/raw/master/screenshots/rook-operator-pods.png)
+
 For more information about the configuration "agent.flexVolumeDirPath=/var/lib/kubelet/volumeplugins", visit [this link](https://github.com/rook/rook/blob/master/Documentation/flexvolume.md#configuring-the-rook-operator)
 
 ---
@@ -60,7 +62,7 @@ For more information about the configuration "agent.flexVolumeDirPath=/var/lib/k
 This will deploy a rook cluster with monitors (MON), OSDs and a manager (MGR). All the necessary requirements such as namespaces and roles will also be created. However, it will still be necessary to setup for what rook will be used (i.e. object store, filesystem, etc).
 
 ```
-kubectl create -f cluster.yaml
+kubectl create -f k8s-deployment/rook/cluster.yaml
 ```
 
 This command will create 10 pods:
@@ -68,6 +70,8 @@ This command will create 10 pods:
 * 3 osd prepare, which will run and complete in each node
 * 3 osds, which will be running in each node
 * 1 rook manager, which will be running in the master node
+
+![Rook Cluster Pods](https://gitlab.com/matuzalemmuller/tcc-engtelecom/raw/master/screenshots/rook-cluster-pods.png)
 
 ---
 ## Install WordPress chart and create Rook volume & bucket to store files
@@ -84,7 +88,7 @@ helm install stable/nginx-ingress --name nginx --set rbac.create=true
 
 Deploy Rook Storage Class. Volumes will now be created using rook:
 ```
-kubectl create -f storage-class.yaml
+kubectl create -f k8s-deployment/rook/storage-class.yaml
 ````
 
 ---
@@ -96,14 +100,14 @@ kubectl create -f storage-class.yaml
 ```
 cat file.txt | base64
 ```
-* Encode `privkey.pem` and `cert.pem` to base64 and add both to `secrets.yaml` file in the `tls.key` and `tls.crt` parameters, respectively
+* Encode `privkey.pem` and `cert.pem` to base64 and add both to `k8s-deployment/rook/secrets.yaml` file in the `tls.key` and `tls.crt` parameters, respectively
 
 ---
 ### Create secrets for Rook Object Store
 
 Create TLS secrets for Rook Object Store and Object Store Ingress resource. This will allow secure connections to be established with the Object Store:
 ```
-kubectl create -f secrets.yaml
+kubectl create -f k8s-deployment/rook/secrets.yaml
 ```
 
 ---
@@ -111,11 +115,13 @@ kubectl create -f secrets.yaml
 
 Create the Object Store, which will expose a S3 API to store and manage data:
 ```
-kubectl create -f object-store.yaml
+kubectl create -f k8s-deployment/rook/object-store.yaml
 ```
 
 * For more information about Rook Object Store, see https://rook.io/docs/rook/master/object.html
 * A new pod will be created in namespace `rook-ceph`. Wait for its status to change to Running before proceeding to the next step
+
+![Rook RGW Pod](https://gitlab.com/matuzalemmuller/tcc-engtelecom/raw/master/screenshots/rook-rgw-pods.png)
 
 ---
 ### Run Rook Toolbox
@@ -123,7 +129,7 @@ kubectl create -f object-store.yaml
 Rook toolbox allows to connect to the cluster via CLI and analyze the underlying Ceph system running cluster, which helps troubleshooting issues. It will also allow to launch a S3 client to create buckets and manage data in the Rook Object Store.
 
 ```
-kubectl create -f toolbox.yaml
+kubectl create -f k8s-deployment/rook/toolbox.yaml
 ```
 
 ---
@@ -184,14 +190,14 @@ s3cmd ls s3://rookbucket --no-ssl --host=${AWS_HOST} --host-bucket=s3://rookbuck
 ---
 ### Create Ingress record for S3 bucket
 
-Add the domain that was previously used to create the certificate and is pointing to the remote worker nodes (VMs) to the `host` parameter of the `object-ingress.yaml` file:
+Add the domain that was previously used to create the certificate and is pointing to the remote worker nodes (VMs) to the `host` parameter of the `k8s-deployment/rook/object-ingress.yaml` file:
 ```
 (line 13) host: __________
 ```
 
 Create Ingress record for S3 bucket:
 ```
-kubectl create -f object-ingress.yaml
+kubectl create -f k8s-deployment/rook/object-ingress.yaml
 ```
 * You will now be able to access your image from outside the cluster over HTTPS by accessing the URL www.domain.com/rook/rookbucket/image.jpg (where www.domain.com is the domain that was previously used to create the certificate and is pointing to the remote worker nodes - VMs).
 
@@ -200,7 +206,7 @@ kubectl create -f object-ingress.yaml
 
 Run MySQL database which will be used by WordPress:
 ```
-helm install stable/mysql --name mysql --version v0.10.1 -f mysql-values.yaml
+helm install stable/mysql --name mysql --version v0.10.1 -f k8s-deployment/wordpress/mysql-values.yaml
 ```
 
 * This will install WordPress and create volumes based in the storage class `rook-ceph-block`
@@ -209,24 +215,24 @@ helm install stable/mysql --name mysql --version v0.10.1 -f mysql-values.yaml
 ---
 ### Create TLS secrets for WordPress
 
-Encode the `privkey.pem` and `cert.pem` files generated from the certificate to base64 and add both to `wordpress-secrets.yaml` file in the `tls.key` and `tls.crt` parameters, respectively.
+Encode the `privkey.pem` and `cert.pem` files generated from the certificate to base64 and add both to `k8s-deployment/wordpress/wordpress-secrets.yaml` file in the `tls.key` and `tls.crt` parameters, respectively.
 
 Create TLS secrets so it's possible to connect to WordPress securely:
 ```
-kubectl create -f wordpress-secrets.yaml
+kubectl create -f k8s-deployment/wordpress/wordpress-secrets.yaml
 ```
 
 ---
 ### Install WordPress chart
 
-Change the `host` parameter in the `wordpress-values.yaml` file to include the domain that is pointing to the remote nodes:
+Change the `host` parameter in the `k8s-deployment/wordpress/wordpress-values.yaml` file to include the domain that is pointing to the remote nodes:
 ```
 (line 100) - name: _______________
 ```
 
 Install WordPress chart using Helm:
 ```
-helm install stable/wordpress --name wordpress --version v2.1.10 -f wordpress-values.yaml
+helm install stable/wordpress --name wordpress --version v2.1.10 -f k8s-deployment/wordpress/wordpress-values.yaml
 ```
 
 * This will install WordPress and create volumes based in the storage class `rook-ceph-block`

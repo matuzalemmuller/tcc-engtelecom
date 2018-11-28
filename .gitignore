@@ -2,3 +2,7 @@
 *tfstate*
 .terraform
 *temp*
+*id_rsa*
+remote-setup/keys/*
+remote-setup/config/*
+.vscode

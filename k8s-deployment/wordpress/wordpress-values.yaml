@@ -50,7 +50,6 @@ mariadb:
   db:
     name: bitnami_wordpress
     user: bn_wordpress
-  # password:
   # rootUser:
   # password:
 
@@ -63,13 +62,7 @@ mariadb:
       size: 8Gi
 
 ## Kubernetes configuration
-## For minikube, set this to NodePort, elsewhere use LoadBalancer or ClusterIP
 serviceType: ClusterIP
-# serviceType: NodePort
-## nodePorts:
-# nodePorts:
-#  http: "30000"
-#  https: "30001"
 
 ## Enable client source IP preservation
 serviceExternalTrafficPolicy: Local
