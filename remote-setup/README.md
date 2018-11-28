@@ -1,4 +1,4 @@
-This documentation presents step by step instructions on how to set up a kubernetes cluster in Virtual Machines (VMs) from Google Cloud Platform (GCP). The cloud infrastructure is launched using Terraform, while the kubernetes cluster is remotely setup using Docker & Rancher. The instructions from this article are for OSX, but are also applicable to Linux hosts and possibly Windows devices.
+This documentation presents step by step instructions on how to set up a kubernetes cluster in Virtual Machines (VMs) from Google Cloud Platform (GCP). The cloud infrastructure is launched using Terraform, while the kubernetes cluster is remotely set up using Docker & Rancher. The instructions from this article are for OSX, but are also applicable to Linux hosts and possibly Windows devices.
 
 * Instructions on how to use Terraform to launch VMs are based in: https://medium.com/@josephbleroy/using-terraform-with-google-cloud-platform-part-1-n-6b5e4074c059
 * Below are the versions of each software used in this project:
@@ -68,7 +68,7 @@ gcloud init
 ---
 ### Modify terraform-infrastructure.tf file to include correct account information and credentials
 
-Generate local SSH keys, which will be used to connect to the remote VMs. Save both keys with default name (id_rsa) and place both keys inside the directory "keys":
+Generate local SSH keys, which will be used to connect to the remote VMs. Save both keys (public and private) with default name (id_rsa) and place both keys inside the directory `remote-setup/keys`:
 ```
 ssh-keygen -t rsa -b 4096 -C "email@domain.com"
 ```
@@ -77,7 +77,7 @@ Modify the file `remote-setup/terraform-infrastructure.tf` to include the user t
 ```
 (line 3)  default = "user"
 ...
-(line 14) project = "test-project-1234"
+(line 18) project = "test-project-1234"
 ```
 
 Download the JSON credential of the service account which will be used by Terraform to manage the GCP resources and save this file with the name "gcp.json" inside the "keys" directory:
@@ -90,6 +90,10 @@ Run the following commands within the `remote-setup` folder to see the changes t
 ```
 terraform plan
 terraform apply
+```
+
+The following command can be used to destroy the changes:
+```
 terraform destroy
 ```
 
@@ -111,7 +115,7 @@ https://rancher.com/docs/rke/v0.1.x/en/installation/
 ---
 ### Deploy remote k8s cluster
 
-Modify the file `remote-setup/cluster.yml` to include the correct IPs and username so rancher can access the VMs and create the cluster. After changing the file, deploy the remote k8s cluster using rke:
+Modify the file `remote-setup/cluster.yml` to include the correct IPs and usernames so Rancher can access the VMs and create the cluster. After changing the file, deploy the remote k8s cluster using rke. The following command should be run within the `remote-setup` folder:
 
 ```
 rke up --config ./cluster.yml
@@ -119,7 +123,7 @@ rke up --config ./cluster.yml
 
 * Note that when the VMs were started using terraform all the necessary firewall rules should have been setup already, but you may also need to change your settings to allow additional ports.
 
-* The docker version installed in the VM needs to be compatible with the rke version installed in the local computer. For example, at the time this project is being worked on (Q3 of 2018) the latest stable release of rke is 1.9.0, which supports docker-ce 17.03.x. This is not the latest version of Docker at this time.
+* The docker version installed in the VM needs to be compatible with the rke version installed in the local computer. For example, at the time this project is being worked on (Q3 of 2018) the latest stable release of rke is 1.9.0, which supports docker-ce 17.03.x. However, this is not the latest version of Docker at this time.
 
 ---
 ### Move k8s local file created by rancher to k8s local configuration folder
