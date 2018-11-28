@@ -52,7 +52,7 @@ Installing the operator will create 7 pods:
 * 3 rook discovers, which will be running in each node
 * 1 rook operator, which will be running in the master node
 
-![Rook Operator Pods](https://gitlab.com/matuzalemmuller/tcc-engtelecom/raw/master/screenshots/rook-operator-pods.png)
+![Rook Operator Pods](screenshots/rook-operator-pods.png)
 
 For more information about the configuration "agent.flexVolumeDirPath=/var/lib/kubelet/volumeplugins", visit [this link](https://github.com/rook/rook/blob/master/Documentation/flexvolume.md#configuring-the-rook-operator)
 
