@@ -71,7 +71,7 @@ This command will create 10 pods:
 * 3 osds, which will be running in each node
 * 1 rook manager, which will be running in the master node
 
-![Rook Cluster Pods](https://gitlab.com/matuzalemmuller/tcc-engtelecom/raw/master/screenshots/rook-cluster-pods.png)
+![Rook Cluster Pods](screenshots/rook-cluster-pods.png)
 
 ---
 ## Install WordPress chart and create Rook volume & bucket to store files
@@ -121,7 +121,7 @@ kubectl create -f k8s-deployment/rook/object-store.yaml
 * For more information about Rook Object Store, see https://rook.io/docs/rook/master/object.html
 * A new pod will be created in namespace `rook-ceph`. Wait for its status to change to Running before proceeding to the next step
 
-![Rook RGW Pod](https://gitlab.com/matuzalemmuller/tcc-engtelecom/raw/master/screenshots/rook-rgw-pods.png)
+![Rook RGW Pod](screenshots/rook-rgw-pods.png)
 
 ---
 ### Run Rook Toolbox
