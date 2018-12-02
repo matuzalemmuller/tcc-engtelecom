@@ -65,6 +65,8 @@ Start the gcloud environment and connect to your account and project:
 gcloud init
 ```
 
+Save the service account key in JSON format as `gcp.json` to the `keys` directory.
+
 ---
 ### Modify terraform-infrastructure.tf file to include correct account information and credentials
 
