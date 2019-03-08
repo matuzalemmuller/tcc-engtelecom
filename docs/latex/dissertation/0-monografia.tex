@@ -1,0 +1,313 @@
+% ------------------------------------------------------------------------
+% Apresentacao
+% Baseado no modelo disponível em https://github.com/emersonmello/modelos-latex/tree/master/monografia 
+% ------------------------------------------------------------------------
+\documentclass[
+	% -- opções da classe memoir --
+	12pt,				% tamanho da fonte
+	openright,			% capítulos começam em pág ímpar (insere página vazia caso preciso
+	twoside,			% oneside / twoside
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+	brazil				% o último idioma é o principal do documento
+	]{abntex2}
+
+%	Todas as indicações de pacotes e configurações estão no arquivo de estilo
+%  chamado estilo-monografia-ifsc.sty.
+\usepackage{estilo-monografia-ifsc}
+	
+
+%---------------------------------------------------------------------%
+%---------------------------------------------------------------------%
+% Informações de dados para CAPA e FOLHA DE ROSTO
+%---------------------------------------------------------------------% 
+%---------------------------------------------------------------------%\
+
+\titulo{Proposta de armazenamento distribuído baseado em contêineres em infraestrutura hiperconvergente}
+\autor{Matuzalem Müller dos Santos}
+\local{São José - SC}
+\data{Fevereiro/2019}
+\orientador{Ederson Torresini}
+\coorientador{Jorge Henrique Busatto Casagrande}
+\instituicao{%
+  Instituto Federal de Santa Catarina -- IFSC
+  \par
+  Campus São José
+  \par
+  Engenharia de Telecomunicações}
+\tipotrabalho{Monografia Engenharia de Telecomunicações}
+
+% O preambulo deve conter o tipo do trabalho, o objetivo, 
+% o nome da instituição e a área de concentração 
+\preambulo{Trabalho de conclusão de curso apresentado à Coordenadoria do Curso de Engenharia de Telecomunicações do campus São José do Instituto Federal de Santa Catarina para a obtenção do diploma de Engenheiro de Telecomunicações.}
+%---------------------------------------------------------------------%
+\textoaprovacao{Este trabalho foi julgado adequado para obtenção do título de Engenheiro de Telecomunicações, pelo Instituto Federal de Educação, Ciência e Tecnologia de Santa Catarina, e aprovado na sua forma final pela comissão avaliadora abaixo indicada.}
+
+
+%---------------------------------------------------------------------%
+% Início do documento
+%---------------------------------------------------------------------%
+
+
+\begin{document}
+% Seleciona o idioma do documento (conforme pacotes do babel)
+\selectlanguage{brazil}
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+% \pretextual
+
+\imprimircapa
+% Folha de rosto - (o * indica que haverá a ficha bibliográfica)
+\imprimirfolhaderosto*
+% ---
+
+%---------------------------------------------------------------------%
+% ATENÇÃO - Pergunte para a Biblioteca do IFSC
+% Inserir a ficha bibliografica - 
+%
+%---------------------------------------------------------------------%
+% Isto é um exemplo de Ficha Catalográfica, ou ``Dados internacionais de
+% catalogação-na-publicação''. Você pode utilizar este modelo como referência. 
+% Porém, provavelmente a biblioteca da sua universidade lhe fornecerá um PDF
+% com a ficha catalográfica definitiva após a defesa do trabalho. Quando estiver
+% com o documento, salve-o como PDF no diretório do seu projeto e substitua todo
+% o conteúdo de implementação deste arquivo pelo comando abaixo:
+%
+% \begin{fichacatalografica}
+%     \includepdf{fig_ficha_catalografica.pdf}
+% \end{fichacatalografica}
+
+\begin{fichacatalografica}
+	\sffamily
+	\vspace*{\fill}					% Posição vertical
+	\begin{center}					% Minipage Centralizado
+	\fbox{\begin{minipage}[c][8cm]{13.5cm}		% Largura
+	\small
+	\imprimirautor
+	%Sobrenome, Nome do autor
+	
+	\hspace{0.5cm} \imprimirtitulo  / \imprimirautor. --
+	\imprimirlocal, \imprimirdata-
+	
+	\hspace{0.5cm} \pageref{LastPage} p. : il. (algumas color.) ; 30 cm.\\
+	
+	\hspace{0.5cm} \imprimirorientadorRotulo~\imprimirorientador
+	
+	\hspace{0.5cm} \imprimircoorientadorRotulo~\imprimircoorientador\\
+	
+	\hspace{0.5cm}
+	\parbox[t]{\textwidth}{\imprimirtipotrabalho~--~\imprimirinstituicao,
+	\imprimirdata.}\\
+	
+	\hspace{0.5cm}
+		1. Nuvem Privada.
+		2. Contêineres.
+		3. Hiperconvergência de Infraestrutura.
+		I. Ederson Torresini.
+		II. Instituto Federal de Santa Catarina.
+		III. Campus São José.
+		IV. \imprimirtitulo
+	\end{minipage}}
+	\end{center}
+\end{fichacatalografica}
+%---------------------------------------------------------------------%
+
+%---------------------------------------------------------------------%
+% Inserir folha de aprovação
+%---------------------------------------------------------------------%
+
+% Isto é um exemplo de Folha de aprovação, elemento obrigatório da NBR
+% 14724/2011 (seção 4.2.1.3). Você pode utilizar este modelo até a aprovação
+% do trabalho. Após isso, substitua todo o conteúdo deste arquivo por uma
+% imagem da página assinada pela banca com o comando abaixo:
+%
+% \includepdf{folhadeaprovacao_final.pdf}
+
+\begin{folhadeaprovacao}
+
+  \begin{center}
+    {\ABNTEXchapterfont\large\MakeUppercase{\imprimirautor}}
+
+    \vspace*{\fill}\vspace*{\fill}
+    \begin{center}
+      \ABNTEXchapterfont\bfseries\Large\MakeUppercase{\imprimirtitulo}
+    \end{center}
+    \vspace*{\fill}
+    
+    \imprimirtextoaprovacao
+     
+    \vspace*{1cm}
+    
+	\imprimirlocal, 15 de fevereiro de 2019
+
+    \vspace*{\fill}
+
+  \end{center}
+        
+
+
+  \assinatura{\textbf{\imprimirorientador, Me.} \\Orientador\\Instituto Federal de Santa Catarina} 
+%   \assinatura{\textbf{Jorge Henrique Busatto Casagrande, Dr.} \\Coorientador\\Instituto Federal de Santa Catarina}
+  \assinatura{\textbf{Emerson Ribeiro de Mello, Dr.} \\Professor\\Instituto Federal de Santa Catarina}
+  \assinatura{\textbf{Humberto José de Sousa} \\Analista de TI\\Instituto Federal de Santa Catarina}
+      
+    \vspace*{1cm}  
+  
+\end{folhadeaprovacao}
+% ---
+
+%---------------------------------------------------------------------%
+% Dedicatória
+%---------------------------------------------------------------------%
+\begin{dedicatoria}
+   \vspace*{\fill}
+   \begin{flushright}
+   \noindent
+   \textit{ Este trabalho é dedicado a meu pai e minha mãe,\\que me ensinaram o valor do trabalho árduo e honesto\\e me orgulham todos os dias.}\vspace*{2cm}
+   \end{flushright}
+\end{dedicatoria}
+% ---
+
+% ---------------------------------------------------------------------%
+% Agradecimentos
+% ---------------------------------------------------------------------%
+\begin{agradecimentos}
+
+A Deus por me dar saúde e força para completar o curso.
+
+A meu pai, que sempre me incentivou a buscar o conhecimento.
+
+A minha mãe, que sempre me mostrou que a bondade e gentileza são importantes não apenas no seio familiar, mas também em minha caminhada acadêmica e profissional.
+
+A meu irmão, meu melhor amigo e exemplo de que o estudo e dedicação trazem os resultados merecidos.
+
+A meus amigos e colegas de curso pelas conversas, palavras de apoio, trabalhos em grupo e ajuda nas horas difíceis.
+
+Ao IFSC pela alta qualidade de ensino e surpreendente capacidade de continuar melhorando a qualidade dos cursos ofertados.
+
+A todos os professores do curso, que durante os últimos anos foram grandes fontes de conhecimento e tornaram possível que este trabalho pudesse ter sido realizado.
+
+Aos professores Ederson Torresini e Jorge Henrique Busatto Casagrande, que além de serem meus orientadores também provaram serem grandes amigos, seja com suas palavras de conforto, motivação e entusiasmo, ou compartilhando minhas frustrações, objetivos e metas.
+
+\end{agradecimentos}
+
+% ---------------------------------------------------------------------%
+% Epígrafe
+% ---------------------------------------------------------------------%
+\begin{epigrafe}
+    \vspace*{\fill}
+	\begin{flushright}
+		\textit{``Um líder sábio é capaz de encontrar algo de bom mesmo nos comentários de um louco.''\\
+		(Wei Zheng)}
+	\end{flushright}
+\end{epigrafe}
+
+
+%---------------------------------------------------------------------%
+% RESUMOS
+%---------------------------------------------------------------------%
+% resumo em português
+\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
+\begin{resumo}
+Infraestruturas de serviços baseadas em contêineres têm se popularizado nos últimos anos desde o lançamento da primeira versão estável do Kubernetes pela Google em 2014. Dentre os benefícios oferecidos por tais infraestruturas caracterizam-se a alta escalabilidade e facilidade no gerenciamento de serviços. Este trabalho propõe uma infraestrutura hiperconvergente baseada em contêineres. Para validação da proposta foi criado um \textit{cluster} Kubernetes na \ac{GCP}, onde o Rook, uma plataforma de armazenamento distribuído, foi utilizado para validar o gerenciamento de armazenamento na infraestrutura hiperconvergente. Para utilização do armazenamento foram utilizados um \textit{blog} WordPress e uma base de dados MySQL. 
+
+\textbf{Palavras-chave}: Nuvem Privada. Contêineres. Hiperconvergência de Infraestrutura.
+\end{resumo}
+
+% resumo em inglês
+\begin{resumo}[Abstract]
+ \begin{otherlanguage*}{english}
+Container-based infrastructures became popular over the past few years since Google released Kubernetes in 2014. Among the advantages of container-based infrastructures are the immense scaling and easy management capabilities offered by this technology. This paper presents a hyper-converged infrastructure model based on containers. A Kubernetes cluster is implemented in the Google Cloud Platform to validate the model, and Rook (a storage orchestrator) is used to provide storage to applications from the cluster. A WordPress blog and a MySQL database are also implemented to use the storage orchestrated by Rook.
+
+\noindent 
+\textbf{Keywords}: Private cloud. Containers. Hyper-converged infrastructure.
+ \end{otherlanguage*}
+\end{resumo}
+
+
+%---------------------------------------------------------------------%
+% inserir lista de ilustrações, tabelas, listagem de códigos, abreviaturas, símbolos
+%---------------------------------------------------------------------%
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+% inserir lista de tabelas
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
+
+% ---
+% inserir lista de listings
+% ---
+\pdfbookmark[0]{\lstlistlistingname}{lol}
+\begin{KeepFromToc}
+\lstlistoflistings
+\end{KeepFromToc}
+\cleardoublepage
+% ---
+
+% inserir lista de abreviaturas e siglas
+\pdfbookmark[0]{Lista de abreviaturas e siglas}{loa}
+\include{TCC/0-abreviaturas}
+\cleardoublepage
+
+%---------------------------------------------------------------------%
+% inserir o sumario
+%---------------------------------------------------------------------%
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ----------------------------------------------------------
+\textual
+
+% ----------------------------------------------------------
+% Inclusão dos capítulos que estão em outros arquivos .tex
+% ----------------------------------------------------------
+\include{TCC/1-introducao}
+\include{TCC/2-fundamentacao}
+\include{TCC/3-cenario-IFSC}
+\include{TCC/4-proposta-sistemas-arquivos}
+\include{TCC/5-implementacao}
+\include{TCC/6-implantacao-no-ifsc}
+\include{TCC/7-consideracoes_finais}
+
+% ----------------------------------------------------------
+% ELEMENTOS PÓS-TEXTUAIS
+% ----------------------------------------------------------
+\postextual
+% ----------------------------------------------------------
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+\bibliography{8-referencias}
+
+% ----------------------------------------------------------
+% Apêndices
+% ----------------------------------------------------------
+\include{TCC/9.0-apendice}
+
+% ----------------------------------------------------------
+% Anexos
+% ----------------------------------------------------------
+\include{TCC/9.1-anexos}
+
+%---------------------------------------------------------------------
+% INDICE REMISSIVO
+%---------------------------------------------------------------------
+\phantompart
+\printindex
+%---------------------------------------------------------------------
+
+\end{document}

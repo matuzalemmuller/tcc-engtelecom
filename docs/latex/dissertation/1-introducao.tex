@@ -1,0 +1,61 @@
+% ----------------------------------------------------------------------- %
+% Arquivo: 1-introducao.tex
+% ----------------------------------------------------------------------- %
+
+\chapter{Introdução}
+\label{c_introducao}
+
+Segundo \citeonline{nist}, computação em nuvem é um modelo que possibilita acesso através da rede a recursos (como armazenamento, por exemplo) de forma universal, conveniente e sob demanda. Estes recursos podem ser rapidamente alocados e descartados com baixo esforço e interação com o provedor do serviço.
+
+No decorrer da última década notou-se um grande aumento na utilização de serviços em nuvem. Segundo \citeonline{kavis}, em 2013 a maior parte das \textit{startups} e empresas de médio porte estavam desenvolvendo suas aplicações para prover serviços em nuvem com suas infraestruturas localizadas em nuvens públicas. A utilização de nuvens públicas têm se tornado cada vez mais comum por conta dos diversos benefícios ofertados. Dentre estes benefícios, tem-se:
+
+\begin{itemize}
+    \item O modelo de utilização \textit{pay-as-you-go}, onde a empresa paga apenas pelos recursos que utiliza da nuvem, ao invés de comprar inúmeros equipamentos e ter que arcar com a manutenção destes equipamentos mesmo quando não utilizados ou ociosos;
+    \item A facilidade de implantação de serviços, haja vista a abstração da infraestrutura pelo provedor;
+    \item A contratação de um serviço especializado em \textit{data centers} e infraestruturas oferecerá uma infraestrutura muito mais confiável e tolerante a falhas do que a de uma nuvem privada da empresa em questão, principalmente se o fim da empresa não for \ac{TI} e se ela já não possuir uma infraestrutura de alta disponibilidade.
+\end{itemize}
+
+Esta última vantagem também permite que desenvolvedores e funcionários de \ac{TI} se concentrem no serviço ofertado pela empresa, e não em manter a infraestrutura (em nível de \textit{hardware}) do sistema. Os funcionários de \ac{TI}, por exemplo, poderiam assumir o papel de administradores do sistema, enquanto os desenvolvedores poderiam concentrar seu tempo no desenvolvimento de novas tecnologias.
+
+Por estes motivos, grandes empresas também estão migrando suas infraestruturas para nuvens públicas com o intuito de melhorar a eficiência de seus serviços e diminuir gastos de manutenção e expansão. Também de acordo com \citeonline{kavis}, um exemplo de grande empresa que realizou a migração de seus serviços de uma nuvem privada para uma nuvem pública é a Netflix. Em 2009, 100\% do tráfego de usuários circulava dentro do próprio \textit{data center} da empresa. Com o aumento do número de usuários do serviço de \textit{streaming}, a empresa precisou reestruturar sua arquitetura interna para adequar-se à elevada carga de tráfego gerada pelo \textit{streaming} de mídia. Por este motivo, em 2008 a empresa iniciou a migração de sua infraestrutura para a \ac{AWS}. Segundo \citeonline{netflixmigration}, em janeiro de 2016 esta migração foi finalizada, e atualmente toda a infraestrutura da Netflix está localizada na nuvem pública da \textit{Amazon}.
+
+Apesar dos diversos benefícios ofertados por nuvens públicas, estas nem sempre são a melhor solução para armazenamento e processamento de dados. Órgãos governamentais possuem grandes quantidades de dados, mas ainda há barreiras na utilização de nuvens públicas por estas entidades. Com foco neste debate, foi publicado o ``Manual de Boas práticas, orientações e vedações para contratação de Serviços de Computação em Nuvem'' pelo \citeonline{boaspraticas}. Este manual veda a utilização de nuvens públicas em alguns cenários, como em casos em que os serviços de \ac{TIC} possam comprometer a segurança nacional, por exemplo. Uma das preocupações na contratação de serviços em nuvem por órgãos governamentais expressas no manual consiste no controle sobre os dados armazenados por terceiros, os quais devem:
+
+\begin{citacao}
+``[...] \textit{residir exclusivamente em território nacional, incluindo replicação e cópias de segurança (\textit{backups}), de modo que o contratante disponha de todas as garantias da legislação brasileira enquanto tomador do serviço e responsável
+pela guarda das informações armazenadas em nuvem.}'' \cite{boaspraticas}
+\end{citacao}
+
+Portanto, é aconselhável que duas condições sejam satisfeitas na contratação de serviços em nuvens públicas por órgãos governamentais: a primeira é de que o serviço contratado atenda a todos os requisitos de geolocalização, privacidade, segurança e qualidade de serviço determinados pelo contratante; a segunda condição refere-se à qualidade e continuidade na gestão sobre o serviço contratado, ou seja, é necessário que seja realizado um planejamento a longo prazo de como o serviço em nuvem será integrado e mantido com o sistema atual. Este planejamento deve ser realizado e seguido de acordo com as necessidades dos órgãos, e não ser alterado por mudanças de gestão ou pessoal, o que dificultaria a implantação e integração do serviço em nuvem com o sistema. Já em relação ao fornecimento de serviços em nuvem por terceiros, algumas empresas têm buscado certificações e ofertado serviços específicos para adequar-se a demandas específicas. Um bom exemplo de como provedores de serviços em nuvem estão começando a prover serviços específicos para governos é a \textit{Amazon GovCloud}, a qual foi projetada para oferecer serviços em nuvem para o governo estadunidense \cite{govcloud}.  No Brasil, a \ac{RNP} está trabalhando nos \ac{CDC} para fornecimento de serviços de computação em nuvem para instituições de ensino e pesquisa no Brasil \cite{cdcRNP}. Entretanto, este projeto ainda não atende a todas as instituições de ensino e pesquisa do país, o que torna a utilização de nuvens privadas comum dentro destas instituições e de outros órgãos governamentais.
+
+Além de poder oferecer um maior nível de controle sobre os dados armazenados, nuvens privadas também possuem outras vantagens. Como os administradores dos \textit{data centers} possuem total controle sobre os serviços executados e dados armazenados, é possível rodar serviços específicos em servidores específicos, que possuam o \textit{hardware} dedicado ou que melhor se encaixem no perfil do serviço utilizado ou ofertado. Além disso, nuvens públicas geralmente realizam o gerenciamento de arquivos através de objetos, sendo serviços transparentes ao usuário \cite{azureobject} \cite{amazonobject}. Já em nuvens privadas, o gerenciamento de arquivos é construído pelos próprios administradores da nuvem, podendo oferecer diversos tipos de armazenamento (em objetos, arquivos ou blocos). Este controle de desempenho no acesso a dados em nuvens privadas também favorece a utilização de nuvens híbridas, onde parte da infraestrutura do sistema está localizada em uma nuvem privada e outra parte localizada em uma nuvem pública. O armazenamento de dados pode, portanto, ser realizado em uma rede privada otimizada, e servido a aplicações que operem em uma nuvem pública, por exemplo.
+
+Em todos os cenários exemplificados acima, a virtualização pode ser utilizada para melhorar a eficiência do sistema. Seja com a utilização de máquinas virtuais para aumentar o grau de portabilidade, flexibilidade e segurança do sistema \cite{tanenbaum} ou na implementação de técnicas de tunelamento e \ac{VLANs} para melhor gerenciamento da rede \cite{sdn}, o conceito de virtualização está presente na maior parte dos \textit{data centers}. Há também uma crescente utilização de contêineres como substitutos a máquinas virtuais, devido a sua baixa sobrecarga na implantação de serviços \cite{modellingkubernetes}.
+
+Visando a melhoria do sistema atual e evolução de serviços ofertados à comunidade acadêmica, a \ac{CTIC} do câmpus São José do \ac{IFSC} tem estudado técnicas e implementações de computação em nuvem privada dentro do câmpus \cite{github-sj}. 
+%A \ac{CTIC} propõe a integração entre infraestruturas dos câmpus do \ac{IFSC}, possibilitando assim uma maior oferta de serviços para toda a comunidade acadêmica. A integração entre infraestruturas também possibilita que serviços que demandam mais capacidade computacional sejam implantados, haja vista que um número maior de nós (servidores) estará disponível para realizar o processamento destes dados e serviços. Este estudo é complexo e possui diversos desafios, tanto locais (dentro dos próprios câmpus) quanto regionais (na rede do \ac{IFSC}).
+Este trabalho apresenta uma infraestrutura hiperconvergente implantada em uma nuvem pública. As tecnologias utilizadas neste trabalho são as mesmas atualmente estudadas pela \ac{CTIC} do câmpus São José, e espera-se que este trabalho possa contribuir com os estudos de armazenamento distribuído em nuvens de contêineres. A seguir serão apresentadas a motivação, justificativa e objetivos do trabalho, seguidos pela fundamentação teórica e implantação de um sistema de armazenamento distribuído em uma nuvem de contêineres. Ao final do trabalho são realizadas as considerações finais.
+
+\section{Motivação}
+
+Atualmente nuvens privadas e tecnologias de virtualização estão sendo estudadas no câmpus São José do \ac{IFSC} para melhorar a eficácia dos serviços ofertados à comunidade acadêmica. O tema de armazenamento em nuvem, principalmente, têm sido estudado para garantir que os dados da instituição sejam armazenados de forma segura e eficiente.
+
+
+\section{Justificativa}
+
+% Tendo em vista o cenário de estudo de expansão e integração de infraestruturas dos câmpus do \ac{IFSC}, o armazenamento distribuído de dados torna-se um ponto crucial do sistema.
+Políticas governamentais impõem que certas informações sejam armazenadas na nuvem privada da instituição \cite{boaspraticas}. Este trabalho apresenta a implantação de armazenamento distribuído em uma infraestrutura hiperconvergente, o qual pode servir de subsídio para tomada de decisão em relação ao armazenamento distribuído do câmpus São José.
+
+\section{Objetivos}
+
+Este trabalho têm por objetivo propor uma solução de armazenamento distribuído e apresentar esta proposta através da implementação de um sistema de armazenamento distribuído em uma nuvem de testes distribuída na \ac{GCP}.
+
+\subsection{Objetivos Específicos}
+
+Estes são os objetivos específicos do trabalho:
+
+\begin{itemize}
+    \item Estudar a utilização de contêineres para fornecimento de serviços.
+    \item Estudar tecnologias de armazenamento distribuído utilizando contêineres.
+    \item Apresentar uma solução de armazenamento distribuído implantada em uma infraestrutura hiperconvergente.
+\end{itemize}

@@ -1,0 +1,22 @@
+% ----------------------------------------------------------------------- %
+% Arquivo: 7-consideracoes-finais.tex
+% ----------------------------------------------------------------------- %
+
+\chapter{Considerações Finais}
+\label{c_consideracoes-finais}
+
+A automatização da criação da infraestrutura remota e seu gerenciamento através de código utilizando o Terraform facilitou o desenvolvimento do trabalho. Com o Terraform é possível não apenas adicionar componentes da nuvem pública utilizada, mas também aprimorar sua configuração ou removê-los da infraestrutura. A abstração fornecida pelo gerenciamento dos recursos através de código é interessante não apenas pela automatização, mas também por possibilitar a adoção de um padrão de versionamento de infraestrutura.
+
+A utilização do Kubernetes como orquestrador de contêineres do \textit{cluster} também foi interessante devido a automatização de tarefas oferecida. É possível, por exemplo, configurar a escalabilidade do serviço implantado através de replicações automáticas de \textit{pods} caso a carga de trabalho aumente. Assim, se a carga de trabalho do \textit{pod} WordPress aumentar, é possível que o orquestrador automaticamente crie novos \textit{pods} para distribuir a carga de trabalho. Além disso, caso ocorra a falha de um \textit{pod}, o Kubernetes irá automaticamente reiniciar este \textit{pod}, montando novamente os volumes anteriormente utilizados e gerenciados pelo Rook. O orquestrador possibilita, portanto, que serviços sejam automaticamente reinicializados caso necessário, dispensando assim a intervenção direta do administrador para tratar falhas mais simples de serviços.
+
+O Rook, por sua vez, mostrou mostrou ser uma alternativa interessante para o fornecimento de armazenamento distribuído em uma infraestrutura hiperconvergente de contêineres. A possibilidade de ofertar armazenamento através de blocos, arquivos e objetos é um ponto positivo, possibilitando que o administrador do serviço possa escolher o tipo de armazenamento que melhor se adeque as suas necessidades. Ao utilizar o cliente da \textit{Amazon S3} para acessar e gerenciar o \textit{bucket} criado no Rook foi possível perceber a similaridade entre os serviços, o que também é um ponto positivo já que a \textit{Amazon S3} é um serviço de armazenamento consolidado no mercado. Esta similaridade permite, por exemplo, que dados que são armazenados em um \textit{cluster} Rook sejam posteriormente transferidos para a \textit{Amazon S3}, ou vice-versa.
+
+\section{Trabalhos futuros}
+
+Sugerem-se os seguintes temas para trabalhos futuros:
+
+\begin{itemize}
+    \item Estudo de necessidades de armazenamento da rede do IFSC
+    \item Proposta de implantação de sistema de armazenamento distribuído baseado em contêineres no IFSC
+    \item Proposta de implantação de infraestrutura hiperconvergente no IFSC
+\end{itemize}
