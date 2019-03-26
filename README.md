@@ -1,3 +1,7 @@
+## Undegraduate thesis: k8s + rook
+
+*Hosted at [GitLab](https://gitlab.com/matuzalemmuller/test-files-creator) and mirrored to [GitHub](https://github.com/matuzalemmuller/test-files-creator).*
+
 Final project for completion of undergraduate degree in Telecommunications Engineering at IFSC. Project page (in Portuguese): https://goo.gl/drWL8Y
 
 Project consists of setting up a remote Kubernetes (k8s) cluster and deploying a WordPress application which accesses files stored in a storage system orchestrated by Rook.
