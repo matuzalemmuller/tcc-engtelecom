@@ -1,4 +1,4 @@
-## Undegraduate thesis: k8s + rook
+## Undergraduate thesis: k8s + rook
 
 *Hosted at [GitLab](https://gitlab.com/matuzalemmuller/tcc-engtelecom) and mirrored to [GitHub](https://github.com/matuzalemmuller/tcc-engtelecom).*
 
