@@ -1,6 +1,6 @@
 ## Undergraduate thesis: k8s + rook
 
-*Hosted at [GitLab](https://gitlab.com/matuzalemmuller/tcc-engtelecom) and mirrored to [GitHub](https://github.com/matuzalemmuller/tcc-engtelecom).*
+*Hosted at [GitHub](https://github.com/matuzalemmuller/tcc-engtelecom) and mirrored to [GitLab](https://gitlab.com/matuzalemmuller/tcc-engtelecom).*
 
 Final project for completion of undergraduate degree in Telecommunications Engineering at IFSC. Project page (in Portuguese): https://goo.gl/drWL8Y
 
